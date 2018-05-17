@@ -3,6 +3,7 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
+import '../assets/_locale/index';
 
 class WeeklyLine extends Component {
 
@@ -16,18 +17,25 @@ class WeeklyLine extends Component {
                 text: this.props.data.title
             },
             xAxis: {
-                data:['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                data:[
+                    Locale.i18n("monday"), 
+                    Locale.i18n("tuesday"), 
+                    Locale.i18n("wednesday"), 
+                    Locale.i18n("thurday"), 
+                    Locale.i18n("friday"), 
+                    Locale.i18n("satday"), 
+                    Locale.i18n("sunday")],
                 type: 'category'
             },
             series: [
                 {
-                    name: '本周',
+                    name: Locale.i18n("thisWeek"),
                     type:'line',
                     smooth: true,
                     data: this.props.data.data[0].items.map(item=>item.value)
                 },
                 {
-                    name: '上周',
+                    name: Locale.i18n("lastWeek"),
                     type:'line',
                     smooth: true,
                     data: this.props.data.data[1].items.map(item=>item.value)
@@ -89,7 +97,7 @@ class WeeklyLine extends Component {
                 }
             },
             legend: {
-                data:['本周', '上周'],
+                data:[Locale.i18n("thisWeek"), Locale.i18n("lastWeek")],
                 textStyle: {
                     color: '#b0b0b0'
                 },

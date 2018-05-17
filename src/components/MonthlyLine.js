@@ -3,6 +3,7 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
+import '../assets/_locale/index';
 
 class MonthlyLine extends Component {
 
@@ -111,14 +112,14 @@ class MonthlyLine extends Component {
             ],
             series: [
                 {
-                    name: "本月",
+                    name: Locale.i18n("thisMonth"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[0].items.map(item => item.value),
                     xAxisIndex: 1
                 },
                 {
-                    name: "上月",
+                    name: Locale.i18n("lastMonth"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[1].items.map(item => item.value)
@@ -187,7 +188,7 @@ class MonthlyLine extends Component {
                 }
             },
             legend: {
-                data: ['本月', '上月'],
+                data: [Locale.i18n("thisMonth"), Locale.i18n("lastMonth")],
                 textStyle: {
                     color: '#b0b0b0'
                 },

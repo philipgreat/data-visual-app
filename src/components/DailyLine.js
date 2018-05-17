@@ -3,6 +3,7 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
+import '../assets/_locale/index';
 
 class DailyLine extends Component {
 
@@ -24,13 +25,13 @@ class DailyLine extends Component {
 
             series: [
                 {
-                    name: '今天',
+                    name: Locale.i18n("today"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[0].items.map(item => item.value)
                 },
                 {
-                    name: '昨天',
+                    name: Locale.i18n("yesterday"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[1].items.map(item => item.value)
@@ -92,7 +93,7 @@ class DailyLine extends Component {
                 }
             },
             legend: {
-                data: ['今天', '昨天'],
+                data: [Locale.i18n("today"), Locale.i18n("yesterday")],
                 textStyle: {
                     color: '#b0b0b0'
                 },

@@ -6,6 +6,8 @@ import Gadget from "./components/Gadget";
 import Header from "./components/Header";
 import CenterGadget from "./components/CenterGadget";
 import querystring from "query-string";
+import "./assets/_locale/index"
+import Locale from './assets/_locale/index';
 
 class App extends Component {
 
@@ -42,7 +44,7 @@ class App extends Component {
         var gadgets = [];
         var count = 1
         const centerUrl = `/queryEntity/${platformType}/${platformId}/${field}`;
-        gadgets.push(<CenterGadget key="center" title="今日销售额" url={centerUrl}/>)
+        gadgets.push(<CenterGadget key="center" title={Locale.i18n(field)} url={centerUrl}/>)
 
         // 当日和前一日线性图
         const dailylineUrl = `/queryTimelyData/${platformType}/${platformId}/${field}/day`;
@@ -81,7 +83,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header title="XXX数据平台"/>
+                <Header title={Locale.i18n(platformType) + '数据罗盘'}/>
                 <Map data={this.state.data}/>
                 {this.state.gadgets}
             </div>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import moment from "moment";
-import local from "moment/locale/zh-cn"
+import "moment/locale/zh-cn"
 
 class Header extends Component {
 

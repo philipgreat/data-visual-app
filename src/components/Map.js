@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import echarts from 'echarts';
-import bmap from 'echarts/extension/bmap/bmap';
+import 'echarts/extension/bmap/bmap';
 
 class Map extends Component {
 

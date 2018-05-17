@@ -57,6 +57,7 @@
     "less": "^3.0.1",
     "less-loader": "^4.1.0"
   },
+  "homepage": ".",
   "proxy": "http://clariones.doublechaintech.com:8580",
   "jest": {
     "collectCoverageFrom": [
