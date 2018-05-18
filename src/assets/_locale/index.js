@@ -14,8 +14,6 @@ const switchLanguage =(selectLocale)=>{
         currentMessageSet = locale.messages
         return;
     }
-    log(`Could not switch to locale ${selectLocale}`);
-
 }
 
 const i18n =(messageKey)=>{
