@@ -17,13 +17,13 @@ class App extends Component {
             data: {},
             gadgets: []
         }
+        this.platformType = ""
     }
 
 
     refreshData(data) {
         this.setState({data: data});
     }
-
 
     componentWillMount() {
         const params = querystring.parse(window.location.search)
@@ -33,7 +33,7 @@ class App extends Component {
         // const platformId = "CIP000001";
         // const field = 'actual_amount';
         // const subType = 'VehicleInspectionOrder';
-        const platformType = params.platformType;
+        this.platformType = params.platformType;
         const platformId = params.platformId;
         const field = params.field;
         const subType = params.subType;
@@ -43,23 +43,23 @@ class App extends Component {
         });
         var gadgets = [];
         var count = 1
-        const centerUrl = `/queryEntity/${platformType}/${platformId}/${field}`;
-        gadgets.push(<CenterGadget key="center" title={Locale.i18n(field)} url={centerUrl}/>)
+        const centerUrl = `/queryEntity/${this.platformType}/${platformId}/${field}`;
+        gadgets.push(<CenterGadget key="center" title={Locale.i18n(this.platformType + "." + field)} url={centerUrl}/>)
 
         // 当日和前一日线性图
-        const dailylineUrl = `/queryTimelyData/${platformType}/${platformId}/${field}/day`;
+        const dailylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="dailyline" url={dailylineUrl}/>);
         // 本周和前一周线性图
-        const weeklylineUrl = `/queryTimelyData/${platformType}/${platformId}/${field}/week`;
+        const weeklylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/week`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="weeklyline" url={weeklylineUrl}/>);
         // 本月和上月线性图
-        const monthlylineUrl = `/queryTimelyData/${platformType}/${platformId}/${field}/month`;
+        const monthlylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/month`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="monthlyline" url={monthlylineUrl}/>);
         // 今年和去年线性图
-        const yearlylineUrl = `/queryTimelyData/${platformType}/${platformId}/${field}/year`;
+        const yearlylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/year`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="yearlyline" url={yearlylineUrl}/>);
 
-        client.get(`/queryPath/${platformType}/${subType}`).then(resp => {
+        client.get(`/queryPath/${this.platformType}/${subType}`).then(resp => {
             const types = resp.data
             if (types.length > 1) {
                 for (let i = 1; i < types.length; i++) {
@@ -67,10 +67,10 @@ class App extends Component {
                         break;
                     }
                     // 占比饼图
-                    const pieUrl = `/queryChildren/${platformType}/${platformId}/${types[i]}/${field}`;
+                    const pieUrl = `/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Pie"} url={pieUrl}/>);
                     // 排行柱状图
-                    const barUrl = `/queryChildren/${platformType}/${platformId}/${types[i]}/${field}/5`;
+                    const barUrl = `/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}/5`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Bar"} url={barUrl}
                                          refreshData={this.refreshData.bind(this)}/>);
                 }
@@ -83,7 +83,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header title={Locale.i18n(platformType) + '数据罗盘'}/>
+                <Header title={Locale.i18n(this.platformType) + '数据罗盘'}/>
                 <Map data={this.state.data}/>
                 {this.state.gadgets}
             </div>
