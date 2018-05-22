@@ -3,10 +3,11 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/bar';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
+import Locale from "../assets/_locale";
 
 class Bar extends Component {
 
-    shouldComponentUpdate(){
+    shouldComponentUpdate() {
         return this.props.data ? true : false
     }
 
@@ -16,7 +17,7 @@ class Bar extends Component {
                 color: '#b0b0b0'
             },
             title: {
-                text: this.props.data.title,
+                text: Locale.i18n(this.props.data.title),
                 textStyle: {
                     color: '#fff',
                     fontSize: 13
@@ -37,7 +38,7 @@ class Bar extends Component {
                 bottom: '15%'
             },
             yAxis: {
-                data: this.props.data.items.map(item => item.name),
+                data: this.preproccessItems(this.props.data.items).map(item => item.name),
                 axisLine: {
                     lineStyle: {
                         color: '#fff'
@@ -66,7 +67,7 @@ class Bar extends Component {
             series: [{
                 type: 'bar',
                 name: this.props.data.title,
-                data: this.props.data.items.map(item => item.value),
+                data: this.preproccessItems(this.props.data.items).map(item => item.value),
                 itemStyle: {
                     normal: {
                         color: new echarts.graphic.LinearGradient(
@@ -91,6 +92,10 @@ class Bar extends Component {
                 }
             }]
         });
+    }
+
+    preproccessItems(items) {
+        return items.filter(item => item.value > 0).sort((a, b) => a.value - b.value)
     }
 
     componentDidMount() {

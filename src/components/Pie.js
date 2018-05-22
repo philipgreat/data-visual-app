@@ -3,14 +3,15 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
+import Locale from "../assets/_locale";
 
 class Pie extends Component {
 
-    shouldComponentUpdate(){
+    shouldComponentUpdate() {
         return this.props.data ? true : false
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.myChart = echarts.init(document.getElementById(this.props.id));
     }
 
@@ -24,7 +25,7 @@ class Pie extends Component {
                     color: '#fff',
                     fontSize: 13
                 },
-                text: this.props.data.title,
+                text: Locale.i18n(this.props.data.title),
                 left: '5%',
                 top: '6%'
             },
@@ -40,7 +41,7 @@ class Pie extends Component {
                 type: 'scroll',
                 orient: 'horizontal',
                 bottom: '5%',
-                data: this.props.data.items.map(item => item.name)
+                data: this.preproccessItems(this.props.data.items).map(item => item.name)
             },
             series: [
                 {
@@ -49,7 +50,7 @@ class Pie extends Component {
                     radius: '50%',
                     roseType: 'radius',
                     center: ['50%', '50%'],
-                    data: this.props.data.items,
+                    data: this.preproccessItems(this.props.data.items),
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
@@ -60,6 +61,10 @@ class Pie extends Component {
                 }
             ]
         });
+    }
+
+    preproccessItems(items) {
+        return items.filter(item => item.value > 0)
     }
 
     render() {
