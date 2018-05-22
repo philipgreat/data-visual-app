@@ -38,7 +38,7 @@ class CenterGadget extends Component {
 
     componentWillMount() {
         this.fetchData()
-        this.interval = setInterval(() => this.fetchData(), 30000)
+        this.interval = setInterval(() => this.fetchData(), 1000)
     }
 
     render() {

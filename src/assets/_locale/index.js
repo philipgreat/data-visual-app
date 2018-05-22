@@ -23,19 +23,21 @@ const switchLanguage = (selectLocale) => {
 }
 
 const i18n = (messageKey) => {
-    const slices = messageKey.split('.');
-    slices.forEach((slice, idx) => {
-        const subSlices = slice.split('_');
-        subSlices.forEach((subSlice, index) => {
-            if (index === 0) {
-                subSlices[index] = subSlice.slice(0, 1).toLowerCase() + subSlice.slice(1);
-                return;
-            }
-            subSlices[index] = subSlice.slice(0, 1).toUpperCase() + subSlice.slice(1);
-        });
-        slices[idx] = subSlices.join("");
+    const slices = messageKey.split('_');
+    slices.forEach((subStr, idx) => {
+        // const subSlices = slice.split('_');
+        // subSlices.forEach((subSlice, index) => {
+        //     if (index === 0) {
+        //         subSlices[index] = subSlice.slice(0, 1).toLowerCase() + subSlice.slice(1);
+        //         return;
+        //     }
+        //     subSlices[index] = subSlice.slice(0, 1).toUpperCase() + subSlice.slice(1);
+        // });
+        // slices[idx] = subSlices.join("");
+
+        slices[idx] = subStr.slice(0,1).toLowerCase() + subStr.slice(1)
     });
-    messageKey = slices.join();
+    messageKey = slices.join(".");
     const msg = currentMessageSet[messageKey];
     if (!msg) {
         return messageKey;

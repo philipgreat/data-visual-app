@@ -44,7 +44,7 @@ class App extends Component {
         var gadgets = [];
         var count = 1
         const centerUrl = `/queryEntity/${this.platformType}/${platformId}/${field}`;
-        gadgets.push(<CenterGadget key="center" title={Locale.i18n(this.platformType + "." + field)} url={centerUrl}/>)
+        gadgets.push(<CenterGadget key="center" title={Locale.i18n(field)} url={centerUrl}/>)
 
         // 当日和前一日线性图
         const dailylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
