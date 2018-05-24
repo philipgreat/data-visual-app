@@ -58,7 +58,14 @@
     "less-loader": "^4.1.0"
   },
   "homepage": ".",
-  "proxy": "http://t420.doublechaintech.cn:8480",
+  "proxy": {
+    "/dataapi": {
+      "target": "http://t420.doublechaintech.cn:8480",
+      "pathRewrite": {
+        "^/dataapi": "/"
+      }
+    }
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"

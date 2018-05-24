@@ -43,23 +43,23 @@ class App extends Component {
         });
         var gadgets = [];
         var count = 1
-        const centerUrl = `/queryEntity/${this.platformType}/${platformId}/${field}`;
+        const centerUrl = `dataapi/queryEntity/${this.platformType}/${platformId}/${field}`;
         gadgets.push(<CenterGadget key="center" title={Locale.i18n(field)} url={centerUrl}/>)
 
         // 当日和前一日线性图
-        const dailylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
+        const dailylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="dailyline" url={dailylineUrl}/>);
         // 本周和前一周线性图
-        const weeklylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/week`;
+        const weeklylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/week`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="weeklyline" url={weeklylineUrl}/>);
         // 本月和上月线性图
-        const monthlylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/month`;
+        const monthlylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/month`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="monthlyline" url={monthlylineUrl}/>);
         // 今年和去年线性图
-        const yearlylineUrl = `/queryTimelyData/${this.platformType}/${platformId}/${field}/year`;
+        const yearlylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/year`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="yearlyline" url={yearlylineUrl}/>);
 
-        client.get(`/queryPath/${this.platformType}/${subType}`).then(resp => {
+        client.get(`dataapi/queryPath/${this.platformType}/${subType}`).then(resp => {
             const types = resp.data
             if (types.length > 1) {
                 for (let i = 1; i < types.length; i++) {
@@ -67,10 +67,10 @@ class App extends Component {
                         break;
                     }
                     // 占比饼图
-                    const pieUrl = `/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}`;
+                    const pieUrl = `dataapi/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Pie"} url={pieUrl}/>);
                     // 排行柱状图
-                    const barUrl = `/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}/5`;
+                    const barUrl = `dataapi/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}/5`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Bar"} url={barUrl}
                                          refreshData={this.refreshData.bind(this)}/>);
                 }
