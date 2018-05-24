@@ -58,7 +58,7 @@
     "less-loader": "^4.1.0"
   },
   "homepage": ".",
-  "proxy": "http://clariones.doublechaintech.com:8580",
+  "proxy": "http://192.168.0.219:8480",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
