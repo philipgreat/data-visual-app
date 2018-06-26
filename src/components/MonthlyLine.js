@@ -57,7 +57,7 @@ class MonthlyLine extends Component {
                     axisLine: {
                         onZero: false,
                         lineStyle: {
-                            color: colors[0]
+                            color: colors[1]
                         }
                     },
                     axisPointer: {
@@ -87,7 +87,7 @@ class MonthlyLine extends Component {
                     axisLine: {
                         onZero: false,
                         lineStyle: {
-                            color: colors[1]
+                            color: colors[0]
                         }
                     },
                     axisPointer: {
@@ -112,17 +112,17 @@ class MonthlyLine extends Component {
             ],
             series: [
                 {
-                    name: Locale.i18n("thisMonth"),
-                    type: 'line',
-                    smooth: true,
-                    data: this.props.data.data[0].items.map(item => item.value),
-                    xAxisIndex: 1
-                },
-                {
                     name: Locale.i18n("lastMonth"),
                     type: 'line',
                     smooth: true,
-                    data: this.props.data.data[1].items.map(item => item.value)
+                    data: this.props.data.data[1].items.map(item => item.value),
+                    xAxisIndex: 1
+                },
+                {
+                    name: Locale.i18n("thisMonth"),
+                    type: 'line',
+                    smooth: true,
+                    data: this.props.data.data[0].items.map(item => item.value)
                 }
             ]
         });

@@ -48,7 +48,7 @@ class YearlyLine extends Component {
                     axisLine: {
                         onZero: false,
                         lineStyle: {
-                            color: colors[0]
+                            color: colors[1]
                         }
                     },
                     axisPointer: {
@@ -78,7 +78,7 @@ class YearlyLine extends Component {
                     axisLine: {
                         onZero: false,
                         lineStyle: {
-                            color: colors[1]
+                            color: colors[0]
                         }
                     },
                     axisPointer: {
@@ -103,17 +103,17 @@ class YearlyLine extends Component {
             ],
             series: [
                 {
-                    name: Locale.i18n("thisYear"),
-                    type: 'line',
-                    smooth: true,
-                    data: this.props.data.data[0].items.map(item => item.value),
-                    xAxisIndex: 1
-                },
-                {
                     name: Locale.i18n("lastYear"),
                     type: 'line',
                     smooth: true,
-                    data: this.props.data.data[1].items.map(item => item.value)
+                    data: this.props.data.data[1].items.map(item => item.value),
+                    xAxisIndex: 1
+                },
+                {
+                    name: Locale.i18n("thisYear"),
+                    type: 'line',
+                    smooth: true,
+                    data: this.props.data.data[0].items.map(item => item.value)
                 }
             ]
         });
