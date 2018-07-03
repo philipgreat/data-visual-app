@@ -43,34 +43,33 @@ class App extends Component {
         });
         var gadgets = [];
         var count = 1
-        const centerUrl = `dataapi/queryEntity/${this.platformType}/${platformId}/${field}`;
+		const url = new URL(window.location);
+		const urlPrefix = url.origin;
+        const centerUrl = `${urlPrefix}/queryEntity/${this.platformType}/${platformId}/${field}`;
         gadgets.push(<CenterGadget key="center" title={Locale.i18n(field)} url={centerUrl}/>)
 
         // 当日和前一日线性图
-        const dailylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
+        const dailylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="dailyline" url={dailylineUrl}/>);
         // 本周和前一周线性图
-        const weeklylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/week`;
+        const weeklylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/week`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="weeklyline" url={weeklylineUrl}/>);
         // 本月和上月线性图
-        const monthlylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/month`;
+        const monthlylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/month`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="monthlyline" url={monthlylineUrl}/>);
         // 今年和去年线性图
-        const yearlylineUrl = `dataapi/queryTimelyData/${this.platformType}/${platformId}/${field}/year`;
+        const yearlylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/year`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="yearlyline" url={yearlylineUrl}/>);
 
-        client.get(`dataapi/queryPath/${this.platformType}/${subType}`).then(resp => {
+        client.get(`${urlPrefix}/queryPath/${this.platformType}/${subType}`).then(resp => {
             const types = resp.data
-            if (types.length > 1) {
-                for (let i = 1; i < types.length; i++) {
-                    if (i > 2) {
-                        break;
-                    }
+            if (types.length > 0) {
+                for (let i = 0; i < types.length; i++) {
                     // 占比饼图
-                    const pieUrl = `dataapi/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}`;
+                    const pieUrl = `${urlPrefix}/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Pie"} url={pieUrl}/>);
                     // 排行柱状图
-                    const barUrl = `dataapi/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}/5`;
+                    const barUrl = `${urlPrefix}/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}/5`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Bar"} url={barUrl}
                                          refreshData={this.refreshData.bind(this)}/>);
                 }
