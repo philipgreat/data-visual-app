@@ -1,0 +1,551 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ECharts</title>
+    
+    <!-- 引入 echarts.js -->
+    <script type="text/javascript" src="echarts.js"></script>
+    <!-- 引入jquery.js -->
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+</head>
+
+<body>
+<div id="charts">
+	
+	</div>
+<script type="text/javascript">
+	
+$.ajax({
+         type : "get",
+         async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+         url : "http://192.168.0.105:8480/writeStatictice",    //请求发送到TestServlet处
+         dataType : "json",        //返回数据形式为json
+         success : function(result) {
+             if (result) {
+					var colors = ['#d8aeff', '#0a4fff'];
+					var allCharts = new Array(result.length*2);
+					var count = 0;
+                    for(var i=0;i<result.length;i++, count++) {
+                       $("#charts").append('<div style="width: 600px;height:400px;" id="chart' + count + '"></div>');
+					   const data = result[i];
+					   //alert($("#charts");
+					   //allCharts[i] = echarts.init($("#chart" + i));
+					   allCharts[count] = echarts.init(document.getElementById('chart' + count));
+					   switch (data.type) {
+							
+							case 'day':
+								var option = {
+									color: ['#ff464b', '#18dfff'],
+									textStyle: {
+										color: '#b0b0b0'
+									},
+									
+									grid: {
+										containLabel: true,
+										left: '5%',
+										top: '22%',
+										bottom: '15%'
+									},
+									tooltip: {
+										trigger: 'axis'
+									},
+									
+									yAxis: {
+										axisLine: {
+											lineStyle: {
+												color: '#fff'
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										type: 'value',
+										splitLine: {
+											show: false
+										}
+									},
+									legend: {
+										data: ["today", "yesterday"],
+										textStyle: {
+											color: '#b0b0b0'
+										},
+										bottom: '5%'
+									},
+									title: {
+										text: data.title
+									},
+									xAxis: {
+										data: data.data[0].items.map(item => {
+											const time = item.name.slice(8);
+											return time.substring(0, 2) + ":" + time.slice(2)
+										})
+									},
+									series: [
+										{
+											name: "today",
+											type: 'line',
+											smooth: true,
+											data: data.data[0].items.map(item => item.value)
+										},
+										{
+											name: "yesterday",
+											type: 'line',
+											smooth: true,
+											data: data.data[1].items.map(item => item.value)
+										}
+									]
+								};
+								allCharts[count].setOption(option);
+								var legend = {
+										data: ["today", "yesterday"],
+										textStyle: {
+											color: '#b0b0b0'
+										},
+										bottom: '5%'
+									};
+								var option1=allCharts[count].getOption();
+								option1.legend = legend;
+								allCharts[count].setOption(option1,true);
+							case 'week':
+								allCharts[count].setOption({
+									title: {
+										text: data.title
+									},
+									yAxis: {
+										axisLine: {
+											lineStyle: {
+												color: '#fff'
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										type: 'value',
+										splitLine: {
+											show: false,
+										}
+									},
+									xAxis: {
+										data:[
+											"monday", 
+											"tuesday", 
+											"wednesday", 
+											"thurday", 
+											"friday", 
+											"satday", 
+											"sunday"],
+										type: 'category'
+									},
+									series: [
+										{
+											name: "thisWeek",
+											type:'line',
+											smooth: true,
+											data: data.data[0].items.map(item=>item.value)
+										},
+										{
+											name: "lastWeek",
+											type:'line',
+											smooth: true,
+											data: data.data[1].items.map(item=>item.value)
+										}
+									]
+								});
+							case 'month':
+								allCharts[count].setOption({
+									textStyle: {
+										color: '#b0b0b0'
+									},
+									title: {
+										text: data.title
+									},
+									grid: {
+										containLabel: true,
+										left: '5%',
+										top: '22%',
+										bottom: '15%'
+									},
+									tooltip: {
+										trigger: 'none',
+										axisPointer: {
+											type: 'cross'
+										}
+									},
+									xAxis: [
+										{
+											type: 'category',
+											axisTick: {
+												alignWithLabel: true
+											},
+											axisLine: {
+												onZero: false,
+												lineStyle: {
+													color: colors[1]
+												}
+											},
+											axisPointer: {
+												label: {
+													formatter: function (params) {
+														if (!params.value) {
+															return null;
+														}
+														return params.value
+															+ (params.seriesData.length ? ': ' + params.seriesData[0].data : '');
+													}
+												}
+											},
+											data: data.data[0].items.map(item => {
+												if (!item.name) {
+													return "";
+												}
+												const date = item.name.slice(4);
+												return date.substring(0, 2) + "-" + date.slice(2)
+											})
+										},
+										{
+											type: 'category',
+											axisTick: {
+												alignWithLabel: true
+											},
+											axisLine: {
+												onZero: false,
+												lineStyle: {
+													color: colors[0]
+												}
+											},
+											axisPointer: {
+												label: {
+													formatter: function (params) {
+														if (!params.value) {
+															return null;
+														}
+														return params.value
+															+ (params.seriesData.length ? ': ' + params.seriesData[0].data : '');
+													}
+												}
+											},
+											data: data.data[1].items.map(item => {
+												if (!item.name) {
+													return "";
+												}
+												const date = item.name.slice(4);
+												return date.substring(0, 2) + "-" + date.slice(2)
+											})
+										}
+									],
+									series: [
+										{
+											name: "lastMonth",
+											type: 'line',
+											smooth: true,
+											data: data.data[1].items.map(item => item.value),
+											xAxisIndex: 1
+										},
+										{
+											name: "thisMonth",
+											type: 'line',
+											smooth: true,
+											data: data.data[0].items.map(item => item.value)
+										}
+									],
+									
+									yAxis: {
+										axisLine: {
+											lineStyle: {
+												color: '#fff'
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										type: 'value',
+										splitLine: {
+											show: false,
+										},
+										axisPointer: {
+											label: {
+												color: 'red'
+											}
+										}
+									},
+									legend: {
+										data: ["thisMonth", "lastMonth"],
+										textStyle: {
+											color: '#b0b0b0'
+										},
+										bottom: '5%'
+									}
+								});
+							case 'year':
+								allCharts[count].setOption({
+									textStyle: {
+										color: '#b0b0b0'
+									},
+									grid: {
+										containLabel: true,
+										left: '5%',
+										top: '22%',
+										bottom: '15%'
+									},
+									tooltip: {
+										trigger: 'none',
+										axisPointer: {
+											type: 'cross'
+										}
+									},
+									yAxis: {
+										axisLine: {
+											lineStyle: {
+												color: '#fff'
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										type: 'value',
+										splitLine: {
+											show: false,
+										},
+										axisPointer: {
+											label: {
+												color: 'red'
+											}
+										}
+									},
+									legend: {
+										data: ["thisYear", "lastYear"],
+										textStyle: {
+											color: '#b0b0b0'
+										},
+										bottom: '5%'
+									},
+									color: colors,
+									title: {
+										text: data.title
+									},
+									xAxis: [
+										{
+											type: 'category',
+											axisTick: {
+												alignWithLabel: true
+											},
+											axisLine: {
+												onZero: false,
+												lineStyle: {
+													color: colors[1]
+												}
+											},
+											axisPointer: {
+												label: {
+													formatter: function (params) {
+														if (!params.value) {
+															return null;
+														}
+														return params.value
+															+ (params.seriesData.length ? ': ' + params.seriesData[0].data : '');
+													}
+												}
+											},
+											data: data.data[0].items.map(item => {
+												const date = item.name;
+												if (!date) {
+													return "";
+												}
+												return date.substring(0, 4) + "-" + date.slice(4)
+											})
+										},
+										{
+											type: 'category',
+											axisTick: {
+												alignWithLabel: true
+											},
+											axisLine: {
+												onZero: false,
+												lineStyle: {
+													color: colors[0]
+												}
+											},
+											axisPointer: {
+												label: {
+													formatter: function (params) {
+														if (!params.value) {
+															return null;
+														}
+														return params.value
+															+ (params.seriesData.length ? ': ' + params.seriesData[0].data : '');
+													}
+												}
+											},
+											data: data.data[1].items.map(item => {
+												const date = item.name;
+												if (!date) {
+													return "";
+												}
+												return date.substring(0, 4) + "-" + date.slice(4)
+											})
+										}
+									],
+									series: [
+										{
+											name: "lastYear",
+											type: 'line',
+											smooth: true,
+											data: data.data[1].items.map(item => item.value),
+											xAxisIndex: 1
+										},
+										{
+											name: "thisYear",
+											type: 'line',
+											smooth: true,
+											data: data.data[0].items.map(item => item.value)
+										}
+									]
+								});
+							case 'top':
+								if (data.items) {
+								allCharts[count].setOption({
+									textStyle: {
+										color: '#b0b0b0'
+									},
+									title: {
+										textStyle: {
+											color: '#fff',
+											fontSize: 13
+										},
+										text: data.title,
+										left: '5%',
+										top: '6%'
+									},
+									tooltip: {
+										trigger: 'item',
+										formatter: "{a} <br/>{b} : {c} ({d}%)"
+									},
+									legend: {
+										textStyle: {
+											color: '#b0b0b0',
+											// fontSize: 8
+										},
+										type: 'scroll',
+										orient: 'horizontal',
+										bottom: '5%',
+										data: data.items.map(item => item.name)
+									},
+									series: [
+										{
+											name: data.title,
+											type: 'pie',
+											radius: '50%',
+											roseType: 'radius',
+											center: ['50%', '50%'],
+											data: data.items,
+											itemStyle: {
+												emphasis: {
+													shadowBlur: 10,
+													shadowOffsetX: 0,
+													shadowColor: 'rgba(0, 0, 0, 0.5)'
+												}
+											}
+										}
+									]
+								});
+								count++;
+								$("#charts").append('<div style="width: 600px;height:400px;" id="chart' + count + '"></div>');
+								allCharts[count] = echarts.init(document.getElementById('chart' + count));
+								allCharts[count].setOption({
+									textStyle: {
+										color: '#b0b0b0'
+									},
+									title: {
+										text: data.title,
+										textStyle: {
+											color: '#fff',
+											fontSize: 13
+										},
+										left: '5%',
+										top: '6%'
+									},
+									tooltip: {
+										trigger: 'axis',
+										axisPointer: {
+											type: 'shadow'
+										}
+									},
+									grid: {
+										containLabel: true,
+										left: '5%',
+										top: '22%',
+										bottom: '15%'
+									},
+									yAxis: {
+										data: data.items.sort((a, b) => a.value - b.value).map(item => item.name),
+										axisLine: {
+											lineStyle: {
+												color: '#fff'
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										splitLine: {
+											show: false
+										}
+									},
+									xAxis: {
+										axisLine: {
+											lineStyle: {
+												color: '#fff'
+											}
+										},
+										axisTick: {
+											show: false
+										},
+										splitLine: {
+											show: false
+										}
+									},
+									series: [{
+										type: 'bar',
+										name: data.title,
+										data: data.items.sort((a, b) => a.value - b.value).map(item => item.value),
+										itemStyle: {
+											normal: {
+												color: new echarts.graphic.LinearGradient(
+													0, 0, 0, 1,
+													[
+														{offset: 0, color: '#83bff6'},
+														{offset: 0.5, color: '#188df0'},
+														{offset: 1, color: '#188df0'}
+													]
+												)
+											},
+											emphasis: {
+												color: new echarts.graphic.LinearGradient(
+													0, 0, 0, 1,
+													[
+														{offset: 0, color: '#2378f7'},
+														{offset: 0.7, color: '#2378f7'},
+														{offset: 1, color: '#83bff6'}
+													]
+												)
+											}
+										}
+									}]
+								});
+								};
+							default:
+								;
+						};
+                     }
+                    
+             }
+         
+        },
+         error : function(errorMsg) {
+           
+         alert("图表请求数据失败!");
+         }
+    })
+	</script>
+</body>
+</html> 
