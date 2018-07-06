@@ -3,10 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>ECharts</title>
-    
-    <!-- 引入 echarts.js -->
+	<script type="text/javascript" src="./_locale/zh_CN.js"></script>
+    <script type="text/javascript" src="./_locale/index.js"></script>
     <script type="text/javascript" src="echarts.js"></script>
-    <!-- 引入jquery.js -->
     <script type="text/javascript" src="jquery-3.3.1.js"></script>
 	<script type="text/javascript" src="mychart.js"></script>
 </head>
@@ -21,7 +20,7 @@
 						"day":getDayOption,"week":getWeekOption,
 					    "month":getMonthOption,"year":getYearOption};
 	const url = new URL(window.location);
-	const urlPrefix = url.origin;
+	const urlPrefix = "http://localhost:8480";
 $.ajax({
          type : "get",
          async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）

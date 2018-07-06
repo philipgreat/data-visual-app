@@ -1,3 +1,5 @@
+
+
 function getDayOption(data, colors) {
 	var option = {
 		color: ['#ff464b', '#18dfff'],
@@ -37,7 +39,7 @@ function getDayOption(data, colors) {
 			bottom: '5%'
 		},
 		title: {
-			text: data.title
+			text: Locale.i18n(data.title, data.type, data.dataType, data.dataId)
 		},
 		xAxis: {
 			data: data.data[0].items.map(item => {
@@ -118,7 +120,7 @@ function getYearOption(data, colors) {
 		},
 		color: colors,
 		title: {
-			text: data.title
+			text: Locale.i18n(data.title, data.type, data.dataType, data.dataId)
 		},
 		xAxis: [
 			{
@@ -226,7 +228,7 @@ function getMonthOption(data,colors) {
 			color: '#b0b0b0'
 		},
 		title: {
-			text: data.title
+			text: Locale.i18n(data.title, data.type, data.dataType, data.dataId)
 		},
 		grid: {
 			containLabel: true,
@@ -351,7 +353,7 @@ function getMonthOption(data,colors) {
 function getWeekOption(data, colors) {
 	var option = {
 		title: {
-			text: data.title
+			text: Locale.i18n(data.title, data.type, data.dataType, data.dataId)
 		},
 		tooltip: {
 			trigger: 'axis'
@@ -412,7 +414,7 @@ function getPieOption(data, colors) {
 		},
 		title: {
 			
-			text: data.title,
+			text: Locale.i18n(data.title, data.type, data.dataType, data.dataId),
 			left: 'center',
 			top: 20
 		},
@@ -432,7 +434,7 @@ function getPieOption(data, colors) {
 		},
 		series: [
 			{
-				name: data.title,
+				name: Locale.i18n(data.title, data.type, data.dataType, data.dataId),
 				type: 'pie',
 				radius: '50%',
 				roseType: 'radius',
@@ -457,7 +459,7 @@ function getBarOption(data, colors) {
 			color: '#b0b0b0'
 		},
 		title: {
-			text: data.title,
+			text: Locale.i18n(data.title, data.type, data.dataType, data.dataId),
 			textStyle: {
 				color: '#ccc',
 				fontSize: 13
@@ -506,7 +508,7 @@ function getBarOption(data, colors) {
 		},
 		series: [{
 			type: 'bar',
-			name: data.title,
+			name: Locale.i18n(data.title, data.type, data.dataType, data.dataId),
 			data: data.items.sort((a, b) => a.value - b.value).map(item => item.value),
 			itemStyle: {
 				normal: {
