@@ -44,7 +44,12 @@ const i18n = (messageKey, dataType, parentType, parentId) => {
 	} else {
 		messageKey = slices[0] + "." + slices[1];
 	}
-	msg = currentMessageSet[messageKey];
+	if (messageKey.indexOf("cOUNT") > 0) {
+		const rst = messageKey.split('.');
+		msg = currentMessageSet[rst[0]] + currentMessageSet[rst[1]];
+	} else {
+		msg = currentMessageSet[messageKey];
+	}
     if (!msg) {
         msg = messageKey;
     }
