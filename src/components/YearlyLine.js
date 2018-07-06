@@ -37,7 +37,7 @@ class YearlyLine extends Component {
         this.myChart.setOption({
             color: colors,
             title: {
-                text: Locale.i18n(this.props.data.title)
+                text: Locale.i18n(this.props.data.title, this.props.data.type)
             },
             xAxis: [
                 {
@@ -103,14 +103,14 @@ class YearlyLine extends Component {
             ],
             series: [
                 {
-                    name: Locale.i18n("lastYear"),
+                    name: Locale.i18nRaw("lastYear"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[1].items.map(item => item.value),
                     xAxisIndex: 1
                 },
                 {
-                    name: Locale.i18n("thisYear"),
+                    name: Locale.i18nRaw("thisYear"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[0].items.map(item => item.value)
@@ -179,7 +179,7 @@ class YearlyLine extends Component {
                 }
             },
             legend: {
-                data: [Locale.i18n("thisYear"), Locale.i18n("lastYear")],
+                data: [Locale.i18nRaw("thisYear"), Locale.i18nRaw("lastYear")],
                 textStyle: {
                     color: '#b0b0b0'
                 },

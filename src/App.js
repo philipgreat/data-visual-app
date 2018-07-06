@@ -44,9 +44,9 @@ class App extends Component {
         var gadgets = [];
         var count = 1
 		const url = new URL(window.location);
-		const urlPrefix = url.origin;
+		const urlPrefix = "http://localhost:8480";
         const centerUrl = `${urlPrefix}/queryEntity/${this.platformType}/${platformId}/${field}`;
-        gadgets.push(<CenterGadget key="center" title={Locale.i18n(field)} url={centerUrl}/>)
+        gadgets.push(<CenterGadget key="center" title={Locale.i18nRaw(field)} url={centerUrl}/>)
 
         // 当日和前一日线性图
         const dailylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
@@ -82,7 +82,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header title={Locale.i18n(this.platformType) + '数据罗盘'}/>
+                <Header title={Locale.i18nRaw(this.platformType) + '数据罗盘'}/>
                 <Map data={this.state.data}/>
                 {this.state.gadgets}
             </div>

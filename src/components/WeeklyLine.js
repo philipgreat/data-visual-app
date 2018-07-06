@@ -14,28 +14,28 @@ class WeeklyLine extends Component {
     componentDidUpdate() {
         this.myChart.setOption({
             title: {
-                text: Locale.i18n(this.props.data.title)
+                text: Locale.i18n(this.props.data.title, this.props.data.type)
             },
             xAxis: {
                 data:[
-                    Locale.i18n("monday"), 
-                    Locale.i18n("tuesday"), 
-                    Locale.i18n("wednesday"), 
-                    Locale.i18n("thurday"), 
-                    Locale.i18n("friday"), 
-                    Locale.i18n("satday"), 
-                    Locale.i18n("sunday")],
+                    Locale.i18nRaw("monday"), 
+                    Locale.i18nRaw("tuesday"), 
+                    Locale.i18nRaw("wednesday"), 
+                    Locale.i18nRaw("thurday"), 
+                    Locale.i18nRaw("friday"), 
+                    Locale.i18nRaw("satday"), 
+                    Locale.i18nRaw("sunday")],
                 type: 'category'
             },
             series: [
                 {
-                    name: Locale.i18n("thisWeek"),
+                    name: Locale.i18nRaw("thisWeek"),
                     type:'line',
                     smooth: true,
                     data: this.props.data.data[0].items.map(item=>item.value)
                 },
                 {
-                    name: Locale.i18n("lastWeek"),
+                    name: Locale.i18nRaw("lastWeek"),
                     type:'line',
                     smooth: true,
                     data: this.props.data.data[1].items.map(item=>item.value)
@@ -97,7 +97,7 @@ class WeeklyLine extends Component {
                 }
             },
             legend: {
-                data:[Locale.i18n("thisWeek"), Locale.i18n("lastWeek")],
+                data:[Locale.i18nRaw("thisWeek"), Locale.i18nRaw("lastWeek")],
                 textStyle: {
                     color: '#b0b0b0'
                 },

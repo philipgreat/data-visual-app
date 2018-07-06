@@ -14,7 +14,7 @@ class DailyLine extends Component {
     componentDidUpdate() {
         this.myChart.setOption({
             title: {
-                text: Locale.i18n(this.props.data.title)
+                text: Locale.i18n(this.props.data.title, this.props.data.type)
             },
             xAxis: {
                 data: this.props.data.data[0].items.map(item => {
@@ -25,13 +25,13 @@ class DailyLine extends Component {
 
             series: [
                 {
-                    name: Locale.i18n("today"),
+                    name: Locale.i18nRaw("today"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[0].items.map(item => item.value)
                 },
                 {
-                    name: Locale.i18n("yesterday"),
+                    name: Locale.i18nRaw("yesterday"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[1].items.map(item => item.value)
@@ -93,7 +93,7 @@ class DailyLine extends Component {
                 }
             },
             legend: {
-                data: [Locale.i18n("today"), Locale.i18n("yesterday")],
+                data: [Locale.i18nRaw("today"), Locale.i18nRaw("yesterday")],
                 textStyle: {
                     color: '#b0b0b0'
                 },

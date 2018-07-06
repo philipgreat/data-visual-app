@@ -46,7 +46,7 @@ class MonthlyLine extends Component {
         this.myChart.setOption({
             color: colors,
             title: {
-                text: Locale.i18n(this.props.data.title)
+                text: Locale.i18n(this.props.data.title, this.props.data.type)
             },
             xAxis: [
                 {
@@ -112,14 +112,14 @@ class MonthlyLine extends Component {
             ],
             series: [
                 {
-                    name: Locale.i18n("lastMonth"),
+                    name: Locale.i18nRaw("lastMonth"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[1].items.map(item => item.value),
                     xAxisIndex: 1
                 },
                 {
-                    name: Locale.i18n("thisMonth"),
+                    name: Locale.i18nRaw("thisMonth"),
                     type: 'line',
                     smooth: true,
                     data: this.props.data.data[0].items.map(item => item.value)
@@ -188,7 +188,7 @@ class MonthlyLine extends Component {
                 }
             },
             legend: {
-                data: [Locale.i18n("thisMonth"), Locale.i18n("lastMonth")],
+                data: [Locale.i18nRaw("thisMonth"), Locale.i18nRaw("lastMonth")],
                 textStyle: {
                     color: '#b0b0b0'
                 },

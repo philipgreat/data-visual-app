@@ -17,7 +17,7 @@ class Bar extends Component {
                 color: '#b0b0b0'
             },
             title: {
-                text: Locale.i18n(this.props.data.title),
+                text: Locale.i18n(this.props.data.title, 'top'),
                 textStyle: {
                     color: '#fff',
                     fontSize: 13
