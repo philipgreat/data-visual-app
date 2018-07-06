@@ -37,7 +37,7 @@ class YearlyLine extends Component {
         this.myChart.setOption({
             color: colors,
             title: {
-                text: Locale.i18n(this.props.data.title, this.props.data.type)
+                text: Locale.i18n(this.props.data.title, this.props.data.type, this.props.data.dataType, this.props.data.dataId)
             },
             xAxis: [
                 {
