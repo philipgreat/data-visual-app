@@ -4,6 +4,7 @@ import 'echarts/lib/chart/bar';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import Locale from "../assets/_locale";
+import querystring from "query-string";
 
 class Bar extends Component {
 
@@ -67,7 +68,7 @@ class Bar extends Component {
             series: [{
                 type: 'bar',
                 name: this.props.data.title,
-                data: this.preproccessItems(this.props.data.items).map(item => item.value),
+                data: this.preproccessItems(this.props.data.items),
                 itemStyle: {
                     normal: {
                         color: new echarts.graphic.LinearGradient(
@@ -100,6 +101,12 @@ class Bar extends Component {
 
     componentDidMount() {
         this.myChart = echarts.init(document.getElementById(this.props.id));
+		this.myChart.on('click', function (params) {
+			var typeId = params.data.id.split("/");
+			const addressQueryString = querystring.parse(window.location.search);
+			window.open(window.location.protocol + "//" + window.location.host + window.location.pathname + "/?platformType=" + typeId[0] + "&platformId=" + typeId[1] + "&field=" + addressQueryString.field + "&subType=" + addressQueryString.subType);
+
+		});
     }
 
     render() {

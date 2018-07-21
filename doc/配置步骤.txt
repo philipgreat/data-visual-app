@@ -1,0 +1,14 @@
+1. skynetsplitter.CISFileSplitter run(new BigdataTask());
+2. skynetsplitter.CISFileSplitter run(new DataCompassTask());
+3. 在Redis客户端执行生成的Redis脚本
+4. 修改arangodb-privilege-graph\arangoService\src\main\resources\application.properties 中global.name改成项目名字（例如cis）
+5. 启动zookeeper，启动kafka
+6. mvn install arangoService这个工程， 上传生成的arangoService-1.0.jar， 在/home/philip/下执行./startApp.sh
+7. 执行以下命令（参数需要根据不同项目去修改）
+curl http://localhost:8480/setTopNode/BookSharingPlatform:BSP000001 （顶点的类型：ID）
+curl http://localhost:8480/addStatistics/MainOrderPayment/paidAmount:double（统计字段所在的类型/统计字段名：统计字段类型）
+curl http://localhost:8480/truncateAndImportAllData（初始化顶点和关系）
+curl http://localhost:8480/truncateAndImportAllData（备用数据库初始化顶点和关系）
+curl http://localhost:8480/initName（各个数据的显示名）
+8. 把第2步生成的翻译脚本拷到data-visual-app\src\assets\_locale下覆盖
+9. yarn build data-visual-app
