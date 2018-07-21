@@ -10,5 +10,6 @@ curl http://localhost:8480/addStatistics/MainOrderPayment/paidAmount:double£¨Í³¼
 curl http://localhost:8480/truncateAndImportAllData£¨³õÊ¼»¯¶¥µãºÍ¹ØÏµ£©
 curl http://localhost:8480/truncateAndImportAllData£¨±¸ÓÃÊı¾İ¿â³õÊ¼»¯¶¥µãºÍ¹ØÏµ£©
 curl http://localhost:8480/initName£¨¸÷¸öÊı¾İµÄÏÔÊ¾Ãû£©
+curl http://localhost:8480/initStatistics/payment_data/amount/double/?timeField=create_time
 8. °ÑµÚ2²½Éú³ÉµÄ·­Òë½Å±¾¿½µ½data-visual-app\src\assets\_localeÏÂ¸²¸Ç
 9. yarn build data-visual-app
