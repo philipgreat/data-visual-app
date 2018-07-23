@@ -104,7 +104,11 @@ class Bar extends Component {
 		this.myChart.on('click', function (params) {
 			var typeId = params.data.id.split("/");
 			const addressQueryString = querystring.parse(window.location.search);
-			window.open(window.location.protocol + "//" + window.location.host + window.location.pathname + "/?platformType=" + typeId[0] + "&platformId=" + typeId[1] + "&field=" + addressQueryString.field + "&subType=" + addressQueryString.subType);
+			var path = window.location.pathname;
+			if (path === "/") {
+				path = "";
+			}
+			window.open(window.location.protocol + "//" + window.location.host + path + "/?projectName=" +addressQueryString.projectName + "&platformType=" + typeId[0] + "&platformId=" + typeId[1] + "&field=" + addressQueryString.field + "&subType=" + addressQueryString.subType);
 
 		});
     }

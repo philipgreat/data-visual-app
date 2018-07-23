@@ -37,6 +37,7 @@ class App extends Component {
         const platformId = params.platformId;
         const field = params.field;
         const subType = params.subType;
+		const projectName = params.projectName;
         const client = axios.create({
             timeout: 3000,
             withCredentials: false
@@ -45,31 +46,31 @@ class App extends Component {
         var count = 1
 		const url = new URL(window.location);
 		const urlPrefix = "http://localhost:8480";
-        const centerUrl = `${urlPrefix}/queryEntity/${this.platformType}/${platformId}/${field}`;
+        const centerUrl = `${urlPrefix}/queryEntity/${projectName}/${this.platformType}/${platformId}/${field}`;
         gadgets.push(<CenterGadget key="center" title={Locale.i18nRaw(field)} url={centerUrl}/>)
 
         // 当日和前一日线性图
-        const dailylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/day`;
+        const dailylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/day`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="dailyline" url={dailylineUrl}/>);
         // 本周和前一周线性图
-        const weeklylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/week`;
+        const weeklylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/week`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="weeklyline" url={weeklylineUrl}/>);
         // 本月和上月线性图
-        const monthlylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/month`;
+        const monthlylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/month`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="monthlyline" url={monthlylineUrl}/>);
         // 今年和去年线性图
-        const yearlylineUrl = `${urlPrefix}/queryTimelyData/${this.platformType}/${platformId}/${field}/year`;
+        const yearlylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/year`;
         gadgets.push(<Gadget id={"gadget" + (count++)} key="yearlyline" url={yearlylineUrl}/>);
 
-        client.get(`${urlPrefix}/queryPath/${this.platformType}/${subType}`).then(resp => {
+        client.get(`${urlPrefix}/queryPath/${projectName}/${this.platformType}/${subType}`).then(resp => {
             const types = resp.data
             if (types.length > 0) {
                 for (let i = 0; i < types.length; i++) {
                     // 占比饼图
-                    const pieUrl = `${urlPrefix}/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}`;
+                    const pieUrl = `${urlPrefix}/queryChildren/${projectName}/${this.platformType}/${platformId}/${types[i]}/${field}`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Pie"} url={pieUrl}/>);
                     // 排行柱状图
-                    const barUrl = `${urlPrefix}/queryChildren/${this.platformType}/${platformId}/${types[i]}/${field}/5`;
+                    const barUrl = `${urlPrefix}/queryChildren/${projectName}/${this.platformType}/${platformId}/${types[i]}/${field}/5`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Bar"} url={barUrl}
                                          refreshData={this.refreshData.bind(this)}/>);
                 }
