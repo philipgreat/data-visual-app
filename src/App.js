@@ -45,9 +45,9 @@ class App extends Component {
         var gadgets = [];
         var count = 1
 		const url = new URL(window.location);
-		const urlPrefix = "http://localhost:8480";
+		const urlPrefix = url.origin;
         const centerUrl = `${urlPrefix}/queryEntity/${projectName}/${this.platformType}/${platformId}/${field}`;
-        gadgets.push(<CenterGadget key="center" title={Locale.i18nRaw(field)} url={centerUrl}/>)
+        gadgets.push(<CenterGadget key="center" title={Locale.i18n(field,'entity','','')} url={centerUrl}/>)
 
         // 当日和前一日线性图
         const dailylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/day`;
@@ -66,6 +66,9 @@ class App extends Component {
             const types = resp.data
             if (types.length > 0) {
                 for (let i = 0; i < types.length; i++) {
+					if (types[i] == subType) {
+						continue;
+					}
                     // 占比饼图
                     const pieUrl = `${urlPrefix}/queryChildren/${projectName}/${this.platformType}/${platformId}/${types[i]}/${field}`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Pie"} url={pieUrl}/>);

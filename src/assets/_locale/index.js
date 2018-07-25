@@ -23,11 +23,24 @@ const switchLanguage = (selectLocale) => {
 }
 
 const i18n = (messageKey, dataType, parentType, parentId) => {
-    const slices = messageKey.split('_');
+	var msg = "";
+	const slices = messageKey.split('_');
     slices.forEach((subStr, idx) => {
         slices[idx] = subStr.slice(0, 1).toLowerCase() + subStr.slice(1)
     });
-	var msg = "";
+	if ('entity' == dataType) {
+		messageKey = slices[0] + "." + slices[1];
+		if (messageKey.indexOf("cOUNT") > 0) {
+			const rst = messageKey.split('.');
+			msg = currentMessageSet[rst[0]] + currentMessageSet[rst[1]];
+		} else {
+			msg = currentMessageSet[messageKey];
+		}
+		if (!msg) {
+			msg = messageKey;
+		}
+		return msg;
+	}
 	var parentTypeZh = currentMessageSet[parentType.slice(0, 1).toLowerCase() + parentType.slice(1)];
 	if (!parentTypeZh) {
 		parentTypeZh = parentType;
