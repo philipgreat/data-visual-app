@@ -20,23 +20,36 @@
 						"day":getDayOption,"week":getWeekOption,
 					    "month":getMonthOption,"year":getYearOption};
 	const url = new URL(window.location);
-	const urlPrefix = url.origin;
+	const urlPrefix = "http://localhost:8480";
 	var searchURL = window.location.search;
     searchURL = searchURL.substring(1, searchURL.length);
-	var projectName = searchURL.split("&")[0].split("=")[1];
+	var params = searchURL.split("&");
+	var api="";
+	if (params.length == 1) {
+		api = urlPrefix + "/queryAllStatictice/" + params[0].split("=")[1];
+	} else if (params.length == 3) {
+		api = urlPrefix + "/queryStatisticsByNode/" + params[0].split("=")[1] + "/" + params[1].split("=")[1] + "/" + params[2].split("=")[1];
+	} else {
+		alert("param error!")
+		throw SyntaxError();
+	}
 	$.ajax({
          type : "get",
-         async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-         url : urlPrefix + "/queryAllStatictice/" + projectName,    //请求发送到TestServlet处
-         dataType : "json",        //返回数据形式为json
+         async : true,         
+         url : api,    
+         dataType : "json",       
          success : function(result) {
              if (result) {
 					var colors = ['#d8aeff', '#0a4fff'];
 					var allCharts = new Array(result.length*2);
 					var count = 0;
                     for(var i=0;i<result.length;i++, count++) {
+						const data = result[i];
+						if ('top' == data.type && !(data.items)) {
+							continue;
+						}
                        $("#charts").append('<div style="width: 600px;height:400px;" id="chart' + count + '"></div>');
-					   const data = result[i];
+					   
 					   //alert($("#charts");
 					   //allCharts[i] = echarts.init($("#chart" + i));
 					   allCharts[count] = echarts.init(document.getElementById('chart' + count));

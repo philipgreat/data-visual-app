@@ -39,7 +39,7 @@ class Bar extends Component {
                 bottom: '15%'
             },
             yAxis: {
-                data: this.preproccessItems(this.props.data.items).map(item => item.name),
+                data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items).map(item => item.name),
                 axisLine: {
                     lineStyle: {
                         color: '#fff'
@@ -68,7 +68,7 @@ class Bar extends Component {
             series: [{
                 type: 'bar',
                 name: this.props.data.title,
-                data: this.preproccessItems(this.props.data.items),
+                data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items),
                 itemStyle: {
                     normal: {
                         color: new echarts.graphic.LinearGradient(

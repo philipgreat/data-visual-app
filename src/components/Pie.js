@@ -52,7 +52,7 @@ class Pie extends Component {
                 type: 'scroll',
                 orient: 'horizontal',
                 bottom: '5%',
-                data: this.preproccessItems(this.props.data.items).map(item => item.name)
+                data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items).map(item => item.name)
             },
             series: [
                 {
@@ -61,7 +61,7 @@ class Pie extends Component {
                     radius: '50%',
                     roseType: 'radius',
                     center: ['50%', '50%'],
-                    data: this.preproccessItems(this.props.data.items),
+                    data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items),
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,
