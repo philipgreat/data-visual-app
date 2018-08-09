@@ -66,9 +66,7 @@ class App extends Component {
             const types = resp.data
             if (types.length > 0) {
                 for (let i = 0; i < types.length; i++) {
-					if (types[i] == subType) {
-						continue;
-					}
+					
                     // 占比饼图
                     const pieUrl = `${urlPrefix}/queryChildren/${projectName}/${this.platformType}/${platformId}/${types[i]}/${field}`;
                     gadgets.push(<Gadget id={"gadget" + (count++)} key={"level" + i + "Pie"} url={pieUrl}/>);
