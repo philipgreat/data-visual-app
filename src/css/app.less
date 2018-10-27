@@ -15,19 +15,25 @@ body {
 #center {
   height: auto;
   width: auto;
-  color: #fff717;
-  text-shadow: 0px 0px 10px #fff717;
   position: absolute;
   top: @header-height + @horizontal-gap;
   left: 47vw;
   text-align: center;
   .content {
     font-size: 40px;
-    border-bottom: 1px solid #fff717;
+    font-weight: 400;
+    color: #fff717;
   }
   .sub-title {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: lighter;
+    background: #fff717;
+    color: #1a1a1a;
+    border-radius: 2px;
+    padding: 2px;
+    left: 3px;
+    position: relative;
+    font-weight: 600;
   }
 }
 
@@ -48,23 +54,24 @@ body {
 #header {
   position: absolute;
   top: 0;
-  left: 2vw;
+  left: 0;
   z-index: 10;
   width: 96vw;
-  border-bottom: 1px solid #8a8176;
   height: @header-height;
+  margin: 0 auto;
+  text-align: center;
   .title {
-    color: #fff;
-    position: relative;
-    font-size: 20px;
-    float: left;
+    color: #e1e9ff;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    display: inline-block;
   }
   .clock {
-    color: #b0b0b0;
-    position: relative;
-    font-size: 15px;
-    padding-top: 3vh;
-    float: right;
+    color: #6cf2ff;
+    font-size: 14px;
+    display: inline-block;
+    margin-left: 20px;
   }
 }
 

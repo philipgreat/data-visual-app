@@ -68,10 +68,10 @@ const i18n = (messageKey, dataType, parentType, parentId) => {
     }
 	
 	if ('top' == dataType) {
-		return parentTypeZh + ":" + parentId + "前5名" + childType + msg;
+		return childType + msg;
 	}
 
-	return parentTypeZh + ":" + parentId + msg;
+	return msg;
 
 }
 const i18nRaw = (messageKey) => {

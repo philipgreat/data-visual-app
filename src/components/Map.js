@@ -45,7 +45,7 @@ class Map extends Component {
                     coordinateSystem: 'bmap',
                     data: this.convertData(this.data),
                     symbolSize: function (value) {
-                        return value[2]*5;
+                        return 10+Math.log10(value[2]);
                     },
 					showEffectOn: 'render',
 					rippleEffect: {

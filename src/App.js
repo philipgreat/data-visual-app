@@ -46,7 +46,7 @@ class App extends Component {
         var gadgets = [];
         var count = 1
 		const url = new URL(window.location);
-		const urlPrefix = url.origin;
+		const urlPrefix = "http://localhost:8480";
 		this.mapDataUrl = `${urlPrefix}/queryInstantData/${projectName}/${field}`;
         const centerUrl = `${urlPrefix}/queryEntity/${projectName}/${this.platformType}/${platformId}/${field}`;
         gadgets.push(<CenterGadget key="center" title={Locale.i18n(field,'entity','','')} url={centerUrl}/>)
