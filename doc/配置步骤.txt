@@ -16,3 +16,8 @@ http://localhost:3000/?projectName=dssc&platformType=DecorationPlatform&platform
 
 /queryEntityData/{projectName}/{parentType}/{parentId}
 /template (post json)
+
+t420重启服务器后，
+1. /home/danny/kafka_2.11-1.1.0/startzoo.sh
+2. /home/danny/kafka_2.11-1.1.0/startkaf.sh
+3. /home/danny/startArangoService.sh
