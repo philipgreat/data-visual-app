@@ -19,6 +19,7 @@ class App extends Component {
         }
         this.platformType = "";
 		this.mapDataUrl = "";
+		this.projectName = "";
     }
 
 
@@ -35,6 +36,7 @@ class App extends Component {
         // const field = 'actual_amount';
         // const subType = 'VehicleInspectionOrder';
         this.platformType = params.platformType;
+		this.projectName = params.projectName;
         const platformId = params.platformId;
         const field = params.field;
         const subType = params.subType;
@@ -86,7 +88,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header title={Locale.i18nRaw(this.platformType) + ' Data Compass'}/>
+                <Header title={this.projectName.toUpperCase() + ' Data Compass'}/>
                 <Map url={this.mapDataUrl}/>
                 {this.state.gadgets}
             </div>

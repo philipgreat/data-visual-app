@@ -10,7 +10,7 @@ class Header extends Component {
         this.state = {
             datetime: ''
         }
-        moment.locale('zh-cn')
+        moment.locale('en-us')
     }
 
     tick(){
