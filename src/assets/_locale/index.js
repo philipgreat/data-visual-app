@@ -1,7 +1,7 @@
 import enUS from './en_US'
 import zhCN from './zh_CN'
 
-const defaultMessageSet = zhCN;
+const defaultMessageSet = enUS;
 let currentMessageSet = defaultMessageSet;
 
 const localeSet = {

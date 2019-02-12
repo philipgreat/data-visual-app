@@ -46,7 +46,7 @@ class App extends Component {
         var gadgets = [];
         var count = 1
 		const url = new URL(window.location);
-		const urlPrefix = "http://localhost:8480";
+		const urlPrefix = url.origin;
 		this.mapDataUrl = `${urlPrefix}/queryInstantData/${projectName}/${field}`;
         const centerUrl = `${urlPrefix}/queryEntity/${projectName}/${this.platformType}/${platformId}/${field}`;
         gadgets.push(<CenterGadget key="center" title={Locale.i18n(field,'entity','','')} url={centerUrl}/>)
@@ -86,7 +86,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header title={Locale.i18nRaw(this.platformType) + '数据罗盘'}/>
+                <Header title={Locale.i18nRaw(this.platformType) + ' Data Compass'}/>
                 <Map url={this.mapDataUrl}/>
                 {this.state.gadgets}
             </div>
