@@ -8,8 +8,10 @@ import 'echarts/extension/bmap/bmap';
 class Map extends Component {
 	constructor(props) {
         super(props);
-		this.interval=1000;
-		this.data=[];
+		this.state = {
+            data: [],
+            selected: false
+        }
         this.axios = axios.create({
             timeout: 10000,
             httpAgent: new http.Agent({keepAlive: true}),
@@ -17,112 +19,11 @@ class Map extends Component {
         });
     }
 	componentDidUpdate() {
-		//alert(this.data );
-        if (!this.data) {
-            return;
-        }
-        const locations = this.data.filter(item => item.longitude && item.longitude !== null);
-        if (!locations || locations.length === 0) {
-            return;
-        }
-		
-		
-        this.myChart.setOption({
+        //alert(this.state.data);
+		const option = {
             bmap: {
-                center: this.calculateMapCenter(this.data),
-                zoom: this.calculateMapZoom(this.data)
-            },
-            // title: {
-            //     text: this.props.data.title,
-            //     left: 'center',
-            //     textStyle: {
-            //         color: '#fff'
-            //     }
-            // },
-            series: [
-                {
-                    type: 'effectScatter',
-                    coordinateSystem: 'bmap',
-                    data: this.convertData(this.data),
-                    symbolSize: function (value) {
-                        return 10+Math.log10(value[2]);
-                    },
-					showEffectOn: 'render',
-					rippleEffect: {
-						brushType: 'stroke',
-						scale : 50
-					},
-                    label: {
-                        normal: {
-                            formatter: '{b}: {@[2]}',
-                            position: 'right',
-                            show: true
-                        },
-                        emphasis: {
-                            show: true
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: '#ddb926'
-                        }
-                    }
-                }
-            ]
-        });
-    }
-	fetchData() {
-        this.axios.get(this.props.url).then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                this.data = resp.data;
-            }
-        }).catch(err => console.error(err));
-		this.componentDidUpdate();
-    }
-	componentWillMount() {
-        this.fetchData();
-        this.interval = setInterval(() => this.fetchData(), 1000);
-    }
-    componentWillUnmount() {
-        clearInterval(this.interval)
-    }
-    convertData = function (data) {
-		//alert(data);
-        if (!data) {
-            return [];
-        }
-        var res = [];
-		//alert(data);
-        data.forEach(item => res.push({
-            name: item.locationName,
-			//value: [102.188043, 38.520089, 4]
-            value: new Array(parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value))
-        }));
-		//alert(res);
-        return res;
-    };
-
-    calculateMapZoom(data) {
-       
-            return 5;
-        
-    }
-
-    calculateMapCenter(data) {
-        
-        return [104.114129, 37.550339];
-        
-        
-    }
-
-    
-
-    componentDidMount() {
-        this.myChart = echarts.init(document.getElementById('map'));
-        const option = {
-            bmap: {
-                center: this.calculateMapCenter(this.data),
-                zoom: this.calculateMapZoom(this.data),
+                center: this.calculateMapCenter(this.state.data),
+                zoom: this.calculateMapZoom(this.state.data),
                 roam: true,
                 mapStyle: {
                     styleJson: [
@@ -273,6 +174,114 @@ class Map extends Component {
         };
 
         this.myChart.setOption(option);
+        if (!this.state.data) {
+            return;
+        }
+        const locations = this.state.data.filter(item => item.longitude && item.longitude !== null);
+        if (!locations || locations.length === 0) {
+            return;
+        }
+		
+		
+        this.myChart.setOption({
+            bmap: {
+                center: this.calculateMapCenter(this.state.data),
+                zoom: this.calculateMapZoom(this.state.data)
+            },
+            // title: {
+            //     text: this.props.data.title,
+            //     left: 'center',
+            //     textStyle: {
+            //         color: '#fff'
+            //     }
+            // },
+            series: [
+                {
+                    type: 'effectScatter',
+                    coordinateSystem: 'bmap',
+                    data: this.convertData(this.state.data),
+                    symbolSize: function (value) {
+                        return 10+Math.log10(value[2]);
+                    },
+					showEffectOn: 'render',
+					rippleEffect: {
+						brushType: 'stroke',
+						scale : 50
+					},
+                    label: {
+                        normal: {
+                            formatter: '{b}: {@[2]}',
+                            position: 'right',
+                            show: true
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#ddb926'
+                        }
+                    }
+                }
+            ]
+        });
+    }
+	fetchData() {
+        this.axios.get(this.props.url).then(resp => {
+            if (resp.status >= 200 && resp.status < 300) {
+                if (resp.data) {
+                    var urlPrefix =  window.origin;
+					var source=new EventSource(urlPrefix + "/send/" + resp.data);
+					source.onmessage=((event) =>{
+						if ("heartbeat" != event.data) {
+                            this.setState({data: JSON.parse(event.data)});
+                            //alert(event.data);
+						}
+					});
+                    return;
+                }
+            }
+        }).catch(err => console.error(err));
+    }
+	componentWillMount() {
+        this.fetchData();
+    }
+
+    convertData = function (data) {
+		//alert(data);
+        if (!data) {
+            return [];
+        }
+        var res = [];
+		//alert(data);
+        data.forEach(item => res.push({
+            name: item.locationName,
+			//value: [102.188043, 38.520089, 4]
+            value: new Array(parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value))
+        }));
+		//alert(res);
+        return res;
+    };
+
+    calculateMapZoom(data) {
+       
+            return 5;
+        
+    }
+
+    calculateMapCenter(data) {
+        
+        return [104.114129, 37.550339];
+        
+        
+    }
+
+    
+
+    componentDidMount() {
+        this.myChart = echarts.init(document.getElementById('map'));
+        
 
     }
 

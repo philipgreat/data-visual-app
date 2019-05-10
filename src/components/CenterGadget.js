@@ -22,23 +22,21 @@ class CenterGadget extends Component {
     fetchData() {
         this.axios.get(this.props.url).then(resp => {
             if (resp.status >= 200 && resp.status < 300) {
-                if (!isNaN(resp.data)) {
-                    this.setState({content: numeral(resp.data).format('0,0')});
+                if (resp.data) {
+                    var urlPrefix = window.origin;
+					var source=new EventSource(urlPrefix + "/send/" + resp.data);
+					source.onmessage=((event) =>{
+						if ("heartbeat" != event.data) {
+							this.setState({content: event.data})
+						}
+					});
                     return;
                 }
-                this.setState({content: resp.data});
-
             }
         }).catch(err => console.error(err));
     }
-
-    componentWillUnmount() {
-        clearInterval(this.interval)
-    }
-
     componentWillMount() {
         this.fetchData()
-        this.interval = setInterval(() => this.fetchData(), 1000)
     }
 
     render() {

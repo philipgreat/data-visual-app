@@ -28,18 +28,23 @@ class Gadget extends Component {
     fetchData() {
         this.axios.get(this.props.url).then(resp => {
             if (resp.status >= 200 && resp.status < 300) {
-                this.setState({data: resp.data})
+                if (resp.data) {
+                    var urlPrefix = window.origin;
+					var source=new EventSource(urlPrefix + "/send/" + resp.data);
+					source.onmessage=((event) =>{
+						if ("heartbeat" != event.data) {
+							this.setState({data: JSON.parse(event.data)})
+						}
+					});
+                    return;
+                }
             }
         }).catch(err => console.error(err));
     }
 
-    componentWillUnmount() {
-        clearInterval(this.interval)
-    }
 
     componentWillMount() {
         this.fetchData()
-        this.interval = setInterval(() => this.fetchData(), 1000)
     }
 
     render() {
@@ -57,8 +62,8 @@ class Gadget extends Component {
                 case 'year':
                     return <YearlyLine id={this.props.id} data={this.state.data}/>;
                 case 'top':
-                    return <Bar id={this.props.id} refreshData={this.props.refreshData} data={this.state.data}/>;
-                default:
+                    return <Bar id={this.props.id} data={this.state.data}/>;
+                case 'normal':
                     return <Pie id={this.props.id} data={this.state.data}/>
             }
         }
