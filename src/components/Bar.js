@@ -4,54 +4,26 @@ import 'echarts/lib/chart/bar';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import Locale from "../assets/_locale";
-import querystring from "query-string";
-import axios from 'axios';
-import http from 'http';
-import https from 'https';
+
 
 class Bar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
             selected: false
         }
 
-        this.axios = axios.create({
-            timeout: 10000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
     }
-    fetchData() {
-        this.axios.get(this.props.url).then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                if (resp.data) {
-                    var urlPrefix =  window.origin;
-					var source=new EventSource(urlPrefix + "/send/" + resp.data);
-					source.onmessage=((event) =>{
-						if ("heartbeat" != event.data) {
-                            //alert(event.data);
-                            this.setState({data: JSON.parse(event.data)});
-                            //alert(JSON.stringify(this.state.data));
-                            //alert(this.state.data.title);
-                            //alert(event.data);
-                            //alert(data.title);
-						}
-					});
-                    return;
-                }
-            }
-        }).catch(err => console.error(err));
-    }
-
     componentDidUpdate() {
+        if (!this.props.data) {
+            return;
+        }
         this.myChart.setOption({
             textStyle: {
                 color: '#b0b0b0'
             },
             title: {
-                text: Locale.i18n(this.state.data.title, 'top', this.state.data.dataType, this.state.data.dataId),
+                text: Locale.i18n(this.props.data.title, 'top', this.props.data.dataType, this.props.data.dataId),
                 textStyle: {
                     color: '#fff',
                     fontSize: 13
@@ -72,7 +44,7 @@ class Bar extends Component {
                 bottom: '15%'
             },
             yAxis: {
-                data: this.state.data.items==null?null:this.preproccessItems(this.state.data.items).map(item => item.name),
+                data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items).map(item => item.name),
                 axisLine: {
                     lineStyle: {
                         color: '#fff'
@@ -100,8 +72,8 @@ class Bar extends Component {
             },
             series: [{
                 type: 'bar',
-                name: this.state.data.title,
-                data: this.state.data.items==null?null:this.preproccessItems(this.state.data.items),
+                name: this.props.data.title,
+                data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items),
                 itemStyle: {
                     normal: {
                         color: new echarts.graphic.LinearGradient(
@@ -134,7 +106,6 @@ class Bar extends Component {
     }
 
     componentDidMount() {
-        this.fetchData();
         this.myChart = echarts.init(document.getElementById(this.props.id));
 		// this.myChart.on('click', function (params) {
 		// 	var typeId = params.data.id.split("/");

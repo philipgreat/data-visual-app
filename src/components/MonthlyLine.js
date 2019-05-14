@@ -4,48 +4,23 @@ import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import Locale from "../assets/_locale";
-import axios from 'axios';
-import http from 'http';
-import https from 'https';
+
 
 class MonthlyLine extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
             selected: false
         }
 
-        this.axios = axios.create({
-            timeout: 10000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
-    }
-    fetchData() {
-        this.axios.get(this.props.url).then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                if (resp.data) {
-                    var urlPrefix =  "http://localhost:8580";
-					var source=new EventSource(urlPrefix + "/send/" + resp.data);
-					source.onmessage=((event) =>{
-						if ("heartbeat" != event.data) {
-                            this.setState({data: JSON.parse(event.data)});
-						}
-					});
-                    return;
-                }
-            }
-        }).catch(err => console.error(err));
-    }
-    componentDidMount() {
-        this.fetchData();
     }
     componentDidUpdate() {
        
-        
-        const lastMonthData = this.state.data.data[1].items
+        if (!this.props.data) {
+            return;
+        }
+        const lastMonthData = this.props.data.data[1].items
         if (lastMonthData.length < 31) {
             for (let i = 0; i < 31 - lastMonthData.length; i++) {
                 lastMonthData.push({
@@ -56,7 +31,7 @@ class MonthlyLine extends Component {
         }
 
 
-        const thisMonthData = this.state.data.data[0].items
+        const thisMonthData = this.props.data.data[0].items
         if (!thisMonthData || thisMonthData.length < 31) {
             const length = thisMonthData ? thisMonthData.length : 0;
             for (let i = 0; i < 31 - length; i++) {
@@ -136,7 +111,7 @@ class MonthlyLine extends Component {
         this.myChart.setOption({
             color: colors,
             title: {
-                text: Locale.i18n(this.state.data.title, this.state.data.type, this.state.data.dataType, this.state.data.dataId)
+                text: Locale.i18n(this.props.data.title, this.props.data.type, this.props.data.dataType, this.props.data.dataId)
             },
             xAxis: [
                 {
@@ -161,7 +136,7 @@ class MonthlyLine extends Component {
                             }
                         }
                     },
-                    data: this.state.data.data[0].items.map(item => {
+                    data: this.props.data.data[0].items.map(item => {
                         if (!item.name) {
                             return "";
                         }
@@ -191,7 +166,7 @@ class MonthlyLine extends Component {
                             }
                         }
                     },
-                    data: this.state.data.data[1].items.map(item => {
+                    data: this.props.data.data[1].items.map(item => {
                         if (!item.name) {
                             return "";
                         }
@@ -205,14 +180,14 @@ class MonthlyLine extends Component {
                     name: Locale.i18nRaw("lastMonth"),
                     type: 'line',
                     smooth: true,
-                    data: this.state.data.data[1].items.map(item => item.value),
+                    data: this.props.data.data[1].items.map(item => item.value),
                     xAxisIndex: 1
                 },
                 {
                     name: Locale.i18nRaw("thisMonth"),
                     type: 'line',
                     smooth: true,
-                    data: this.state.data.data[0].items.map(item => item.value)
+                    data: this.props.data.data[0].items.map(item => item.value)
                 }
             ]
         });

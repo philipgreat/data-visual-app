@@ -4,44 +4,23 @@ import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import Locale from "../assets/_locale";
-import axios from 'axios';
-import http from 'http';
-import https from 'https';
+
 class WeeklyLine extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
             selected: false
         }
 
-        this.axios = axios.create({
-            timeout: 10000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
-    }
-    fetchData() {
-        this.axios.get(this.props.url).then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                if (resp.data) {
-                    var urlPrefix =  window.origin;
-					var source=new EventSource(urlPrefix + "/send/" + resp.data);
-					source.onmessage=((event) =>{
-						if ("heartbeat" != event.data) {
-                            this.setState({data: JSON.parse(event.data)});
-						}
-					});
-                    return;
-                }
-            }
-        }).catch(err => console.error(err));
     }
     componentDidUpdate() {
+        if (!this.props.data) {
+            return;
+        }
         this.myChart.setOption({
             title: {
-                text: Locale.i18n(this.state.data.title, this.state.data.type, this.state.data.dataType, this.state.data.dataId)
+                text: Locale.i18n(this.props.data.title, this.props.data.type, this.props.data.dataType, this.props.data.dataId)
             },
             xAxis: {
                 data:[
@@ -59,19 +38,19 @@ class WeeklyLine extends Component {
                     name: Locale.i18nRaw("thisWeek"),
                     type:'line',
                     smooth: true,
-                    data: this.state.data.data[0].items.map(item=>item.value)
+                    data: this.props.data.data[0].items.map(item=>item.value)
                 },
                 {
                     name: Locale.i18nRaw("lastWeek"),
                     type:'line',
                     smooth: true,
-                    data: this.state.data.data[1].items.map(item=>item.value)
+                    data: this.props.data.data[1].items.map(item=>item.value)
                 }
             ]
         });
         this.myChart.setOption({
             title: {
-                text: Locale.i18n(this.state.data.title, this.state.data.type, this.state.data.dataType, this.state.data.dataId)
+                text: Locale.i18n(this.props.data.title, this.props.data.type, this.props.data.dataType, this.props.data.dataId)
             },
             xAxis: {
                 data:[
@@ -89,20 +68,19 @@ class WeeklyLine extends Component {
                     name: Locale.i18nRaw("thisWeek"),
                     type:'line',
                     smooth: true,
-                    data: this.state.data.data[0].items.map(item=>item.value)
+                    data: this.props.data.data[0].items.map(item=>item.value)
                 },
                 {
                     name: Locale.i18nRaw("lastWeek"),
                     type:'line',
                     smooth: true,
-                    data: this.state.data.data[1].items.map(item=>item.value)
+                    data: this.props.data.data[1].items.map(item=>item.value)
                 }
             ]
         });
     }
 
     componentDidMount() {
-        this.fetchData();
         this.myChart = echarts.init(document.getElementById(this.props.id));
         this.myChart.setOption({
             color: ['#f917ff','#62ff0e'],

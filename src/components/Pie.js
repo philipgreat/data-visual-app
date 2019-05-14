@@ -4,49 +4,18 @@ import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import Locale from "../assets/_locale";
-import querystring from "query-string";
-import axios from 'axios';
-import http from 'http';
-import https from 'https';
+
 class Pie extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
             selected: false
         }
 
-        this.axios = axios.create({
-            timeout: 10000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
-    }
-    fetchData() {
-        this.axios.get(this.props.url).then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                if (resp.data) {
-                    var urlPrefix =  window.origin;
-					var source=new EventSource(urlPrefix + "/send/" + resp.data);
-					source.onmessage=((event) =>{
-						if ("heartbeat" != event.data) {
-                            //alert(event.data);
-                            this.setState({data: JSON.parse(event.data)});
-                            //alert(JSON.stringify(this.state.data));
-                            //alert(this.state.data.title);
-                            //alert(event.data);
-                            //alert(data.title);
-						}
-					});
-                    return;
-                }
-            }
-        }).catch(err => console.error(err));
     }
     componentDidMount() {
-        this.fetchData();
         this.myChart = echarts.init(document.getElementById(this.props.id));
-        //alert(this.state.data.title);
+        //alert(this.props.data.title);
 		// this.myChart.on('click', function (params) {
 		// 	var typeId = params.data.id.split("/");
 		// 	const addressQueryString = querystring.parse(window.location.search);
@@ -61,7 +30,9 @@ class Pie extends Component {
     }
 
     componentDidUpdate() {
-        //alert(this.state.data.title);
+        if (!this.props.data) {
+            return;
+        }
         this.myChart.setOption({
             textStyle: {
                 color: '#b0b0b0'
@@ -71,7 +42,7 @@ class Pie extends Component {
                     color: '#fff',
                     fontSize: 13
                 },
-                text: Locale.i18n(this.state.data.title, 'top', this.state.data.dataType, this.state.data.dataId),
+                text: Locale.i18n(this.props.data.title, 'top', this.props.data.dataType, this.props.data.dataId),
                 left: '5%',
                 top: '6%'
             },
@@ -87,16 +58,16 @@ class Pie extends Component {
                 type: 'scroll',
                 orient: 'horizontal',
                 bottom: '5%',
-                data: this.state.data.items==null?null:this.preproccessItems(this.state.data.items).map(item => item.name)
+                data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items).map(item => item.name)
             },
             series: [
                 {
-                    name: this.state.data.title,
+                    name: this.props.data.title,
                     type: 'pie',
                     radius: '50%',
                     roseType: 'radius',
                     center: ['50%', '50%'],
-                    data: this.state.data.items==null?null:this.preproccessItems(this.state.data.items),
+                    data: this.props.data.items==null?null:this.preproccessItems(this.props.data.items),
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,

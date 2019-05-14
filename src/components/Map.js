@@ -12,18 +12,15 @@ class Map extends Component {
             data: [],
             selected: false
         }
-        this.axios = axios.create({
-            timeout: 10000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
     }
 	componentDidUpdate() {
-        //alert(this.state.data);
+        if (!this.props.data) {
+            return;
+        }
 		const option = {
             bmap: {
-                center: this.calculateMapCenter(this.state.data),
-                zoom: this.calculateMapZoom(this.state.data),
+                center: this.calculateMapCenter(this.props.data),
+                zoom: this.calculateMapZoom(this.props.data),
                 roam: true,
                 mapStyle: {
                     styleJson: [
@@ -174,10 +171,10 @@ class Map extends Component {
         };
 
         this.myChart.setOption(option);
-        if (!this.state.data) {
+        if (!this.props.data) {
             return;
         }
-        const locations = this.state.data.filter(item => item.longitude && item.longitude !== null);
+        const locations = this.props.data.filter(item => item.longitude && item.longitude !== null);
         if (!locations || locations.length === 0) {
             return;
         }
@@ -185,8 +182,8 @@ class Map extends Component {
 		
         this.myChart.setOption({
             bmap: {
-                center: this.calculateMapCenter(this.state.data),
-                zoom: this.calculateMapZoom(this.state.data)
+                center: this.calculateMapCenter(this.props.data),
+                zoom: this.calculateMapZoom(this.props.data)
             },
             // title: {
             //     text: this.props.data.title,
@@ -199,7 +196,7 @@ class Map extends Component {
                 {
                     type: 'effectScatter',
                     coordinateSystem: 'bmap',
-                    data: this.convertData(this.state.data),
+                    data: this.convertData(this.props.data),
                     symbolSize: function (value) {
                         return 10+Math.log10(value[2]);
                     },
@@ -227,26 +224,7 @@ class Map extends Component {
             ]
         });
     }
-	fetchData() {
-        this.axios.get(this.props.url).then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                if (resp.data) {
-                    var urlPrefix =  window.origin;
-					var source=new EventSource(urlPrefix + "/send/" + resp.data);
-					source.onmessage=((event) =>{
-						if ("heartbeat" != event.data) {
-                            this.setState({data: JSON.parse(event.data)});
-                            //alert(event.data);
-						}
-					});
-                    return;
-                }
-            }
-        }).catch(err => console.error(err));
-    }
-	componentWillMount() {
-        this.fetchData();
-    }
+	
 
     convertData = function (data) {
 		//alert(data);
