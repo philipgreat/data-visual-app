@@ -44,7 +44,7 @@ class App extends Component {
         this.field = params.field;
         const subType = params.subType;
         const urlPrefix = window.origin;
-        
+        //const urlPrefix = "http://localhost:8480"
         var url = `${urlPrefix}/queryCombinedData/${this.projectName}/${this.platformType}/${platformId}/${this.field}/${subType}`;
         this.axios.get(url).then(resp => {
             if (resp.status >= 200 && resp.status < 300) {
@@ -52,6 +52,7 @@ class App extends Component {
                     var ws = new WebSocket("wss://" + window.location.hostname + "/wsSend/" + resp.data);
                     ws.onmessage = (event)=> {  
                         if ("heartbeat" !== event.data) {
+							//console.log(event.data);
                             this.setState({data: JSON.parse(event.data)});
 						}
                     };  
@@ -67,12 +68,17 @@ class App extends Component {
 
 
     render() {
-        var count = 1;        
+        var count = 1;    
+		//while (!this.state.data.center) {
+
+		//}
         return (
+			(
+			
             <div className="App">
                 <Header title={this.projectName.toUpperCase() + ' Data Compass'}/>
                 <Map data={this.state.data.location}/>
-                <CenterGadget key="center" title={Locale.i18n(this.field,'entity','','')} data={this.state.data.center}/>
+                <CenterGadget key="center" data={this.state.data.center}/>
                 <DailyLine id={"gadget" + (count++)} key="dailyline" data={this.state.data.day}/>
                 <WeeklyLine id={"gadget" + (count++)} key="weeklyline" data={this.state.data.week}/>
                 <MonthlyLine id={"gadget" + (count++)} key="monthlyline" data={this.state.data.month}/>
@@ -81,7 +87,8 @@ class App extends Component {
                 <Bar id={"gadget" + (count++)} key={"level0Bar"} data={this.state.data.bar0}/>
                 <Pie id={"gadget" + (count++)} key={"level1Pie"} data={this.state.data.pie1}/>
                 <Bar id={"gadget" + (count++)} key={"level1Bar"} data={this.state.data.bar1}/>
-            </div>
+            </div> 
+			)
         );
     }
 }
