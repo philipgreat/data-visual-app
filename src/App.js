@@ -76,7 +76,7 @@ class App extends Component {
 			(
 			
             <div className="App">
-                <Header title={this.projectName.toUpperCase() + ' Data Compass'}/>
+                <Header title={this.state.data.projectName + ' 数据大屏'}/>
                 <Map data={this.state.data.location}/>
                 <CenterGadget key="center" data={this.state.data.center}/>
                 <DailyLine id={"gadget" + (count++)} key="dailyline" data={this.state.data.day}/>
