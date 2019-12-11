@@ -45,11 +45,18 @@ class App extends Component {
         const subType = params.subType;
         const urlPrefix = window.origin;
         //const urlPrefix = "http://localhost:8480"
+		var ishttps = 'https:' == document.location.protocol ? true : false;
         var url = `${urlPrefix}/queryCombinedData/${this.projectName}/${this.platformType}/${platformId}/${this.field}/${subType}`;
         this.axios.get(url).then(resp => {
             if (resp.status >= 200 && resp.status < 300) {
                 if (resp.data) {
-                    var ws = new WebSocket("wss://" + window.location.hostname + "/wsSend/" + resp.data);
+					var protocol = "ws://";
+					if (ishttps) {
+						protocol = "wss://";
+					}
+                    var ws = new WebSocket(protocol + window.location.hostname + "/wsSend/" + resp.data);
+					
+					//var ws = new WebSocket("ws://localhost:8580/wsSend/" + resp.data);
                     ws.onmessage = (event)=> {  
                         if ("heartbeat" !== event.data) {
 							//console.log(event.data);
