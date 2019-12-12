@@ -191,17 +191,12 @@ class Map extends Component {
             // },
             series: [
                 {
-                    type: 'effectScatter',
+                    type: 'scatter',
                     coordinateSystem: 'bmap',
                     data: this.convertData(this.props.data),
                     symbolSize: function (value) {
                         return 10+Math.log10(value[2]);
                     },
-					showEffectOn: 'render',
-					rippleEffect: {
-						brushType: 'stroke',
-						scale : 50
-					},
                     label: {
                         normal: {
                             formatter: '{b}: {@[2]}',
