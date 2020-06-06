@@ -28,7 +28,7 @@ const i18n = (messageKey, dataType, parentType, parentId) => {
     slices.forEach((subStr, idx) => {
         slices[idx] = subStr.slice(0, 1).toLowerCase() + subStr.slice(1)
     });
-	if ('entity' == dataType) {
+	if ('entity' === dataType) {
 		messageKey = slices[0] + "." + slices[1];
 		if (messageKey.indexOf("cOUNT") > 0) {
 			const rst = messageKey.split('.');
@@ -46,7 +46,7 @@ const i18n = (messageKey, dataType, parentType, parentId) => {
 		parentTypeZh = parentType;
 	}
 	var childType = "";
-	if ('top' == dataType) {
+	if ('top' === dataType) {
 		messageKey = slices[2] + "." + slices[3];
 		
 		childType = currentMessageSet[slices[1]];
@@ -67,7 +67,7 @@ const i18n = (messageKey, dataType, parentType, parentId) => {
         msg = messageKey;
     }
 	
-	if ('top' == dataType) {
+	if ('top' === dataType) {
 		return childType + msg;
 	}
 
