@@ -7,7 +7,7 @@ class CenterGadget extends Component {
     }
     render() {
         return (
-            <div id="center" style={{marginTop:"100px",height:"100px"}}>
+            <div id="center" style={{height:"100px"}}>
 				
                 <div className="content">
 				<table style={{width:"100%", textAlign:"center"}}>
