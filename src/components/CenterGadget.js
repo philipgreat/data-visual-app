@@ -25,7 +25,7 @@ class CenterGadget extends Component {
 					</tr>
 				</table>
 				</div>
-                <div className="sub-title">{this.props.data?this.props.data.title:""}</div>
+                <div className="sub-title" style={{fontSize:"25px"}} >{this.props.data?this.props.data.title:""}统计</div>
             </div>
         );
     }
