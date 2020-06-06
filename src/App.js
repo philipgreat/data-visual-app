@@ -45,7 +45,7 @@ class App extends Component {
         });
         var gadgets = [];
         var count = 1
-		const url = new URL(window.location);
+		// const url = new URL(window.location);
 		const urlPrefix = "http://localhost:8480";
 		this.mapDataUrl = `${urlPrefix}/queryInstantData/${projectName}/${field}`;
         const centerUrl = `${urlPrefix}/queryEntity/${projectName}/${this.platformType}/${platformId}/${field}`;

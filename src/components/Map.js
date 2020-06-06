@@ -96,7 +96,7 @@ class Map extends Component {
         data.forEach(item => res.push({
             name: item.locationName,
 			//value: [102.188043, 38.520089, 4]
-            value: new Array(parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value))
+            value: [parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value,10)]
         }));
 		//alert(res);
         return res;

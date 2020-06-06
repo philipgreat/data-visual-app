@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from "axios/index";
 import http from 'http';
 import https from 'https';
-import numeral from "numeral";
+// import numeral from "numeral";
 import Locale from "../assets/_locale";
 
 class CenterGadget extends Component {
@@ -14,7 +14,7 @@ class CenterGadget extends Component {
         }
 
         this.axios = axios.create({
-            timeout: 10000,
+            timeout: 100000,
             httpAgent: new http.Agent({keepAlive: true}),
             httpsAgent: new https.Agent({keepAlive: true})
         });
