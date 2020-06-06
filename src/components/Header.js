@@ -32,7 +32,7 @@ class Header extends Component {
         return (
             <div id="header">
                 <h1 className="title" style={{fontSize:"60px"}}>优荣代建数据大屏</h1>
-                <span className="clock" style={{position:"absolute",top:0,right:0,fontSize:"60px"}}>{this.state.datetime}</span>
+                <span className="clock" style={{position:"absolute",top:0,right:0,fontSize:"10px"}}>{this.state.datetime}</span>
             </div>
         );
     }
