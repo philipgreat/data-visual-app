@@ -31,7 +31,7 @@ class Header extends Component {
     render() {
         return (
             <div id="header">
-                <h1 className="title" style={{fontSize:"80px"}}>优荣代建数据平台数据大屏</h1>
+                <h1 className="title" style={{fontSize:"60px"}}>优荣代建数据平台数据大屏</h1>
                
             </div>
         );
