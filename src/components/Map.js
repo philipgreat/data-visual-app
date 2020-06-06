@@ -11,7 +11,7 @@ class Map extends Component {
 		this.interval=1000;
 		this.data=[];
         this.axios = axios.create({
-            timeout: 10000,
+            timeout: 100000,
             httpAgent: new http.Agent({keepAlive: true}),
             httpsAgent: new https.Agent({keepAlive: true})
         });
