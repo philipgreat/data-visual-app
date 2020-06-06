@@ -25,7 +25,7 @@ class App extends Component {
             gadgets: []
         }
         this.axios = axios.create({
-            timeout: 10000,
+            timeout: 60000,
             httpAgent: new http.Agent({keepAlive: true}),
             httpsAgent: new https.Agent({keepAlive: true})
         });
@@ -54,7 +54,7 @@ class App extends Component {
 					if (ishttps) {
 						protocol = "wss://";
 					}
-                    var ws = new WebSocket(protocol + window.location.hostname + "/wsSend/" + resp.data);
+                    var ws = new WebSocket(protocol + window.location.hostname + ":" + window.location.port + "/wsSend/" + resp.data);
 					
 					//var ws = new WebSocket("ws://localhost:8580/wsSend/" + resp.data);
                     ws.onmessage = (event)=> {  
