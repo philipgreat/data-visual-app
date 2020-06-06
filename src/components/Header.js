@@ -31,8 +31,8 @@ class Header extends Component {
     render() {
         return (
             <div id="header">
-                <h1 className="title">{this.props.title}</h1>
-                <span className="clock">{this.state.datetime}</span>
+                <h1 className="title">优荣代建平台</h1>
+               
             </div>
         );
     }
