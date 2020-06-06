@@ -10,7 +10,7 @@ class CenterGadget extends Component {
             <div id="center" style={{marginTop:"100px",height:"100px"}}>
 				
                 <div className="content">
-				<table style={{width:"100%"}}>
+				<table style={{width:"100%", textAlign:"center"}}>
 					<tr style={{height:"60px",fontSize:"40px"}}>
 						<td>{this.props.data?this.props.data.data.halfHour.value:""}</td>
 						<td>{this.props.data?this.props.data.data.day.value:""}</td>
