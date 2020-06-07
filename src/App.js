@@ -43,38 +43,6 @@ class App extends Component {
         const platformId = params.platformId;
         this.field = params.field;
         const subType = params.subType;
-<<<<<<< HEAD
-		const projectName = params.projectName;
-        const client = axios.create({
-            timeout: 3000,
-            withCredentials: false
-        });
-        var gadgets = [];
-        var count = 1
-		// const url = new URL(window.location);
-		const urlPrefix = "http://localhost:8480";
-		this.mapDataUrl = `${urlPrefix}/queryInstantData/${projectName}/${field}`;
-        const centerUrl = `${urlPrefix}/queryEntity/${projectName}/${this.platformType}/${platformId}/${field}`;
-        gadgets.push(<CenterGadget key="center" title={Locale.i18n(field,'entity','','')} url={centerUrl}/>)
-
-        // 当日和前一日线性图
-        const dailylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/day`;
-        gadgets.push(<Gadget id={"gadget" + (count++)} key="dailyline" url={dailylineUrl}/>);
-        // 本周和前一周线性图
-        const weeklylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/week`;
-        gadgets.push(<Gadget id={"gadget" + (count++)} key="weeklyline" url={weeklylineUrl}/>);
-        // 本月和上月线性图
-        const monthlylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/month`;
-        gadgets.push(<Gadget id={"gadget" + (count++)} key="monthlyline" url={monthlylineUrl}/>);
-        // 今年和去年线性图
-        const yearlylineUrl = `${urlPrefix}/queryTimelyData/${projectName}/${this.platformType}/${platformId}/${field}/year`;
-        gadgets.push(<Gadget id={"gadget" + (count++)} key="yearlyline" url={yearlylineUrl}/>);
-
-        client.get(`${urlPrefix}/queryPath/${projectName}/${this.platformType}/${subType}`).then(resp => {
-            const types = resp.data
-            if (types.length > 0) {
-                for (let i = 0; i < types.length; i++) {
-=======
         const urlPrefix = window.origin;
         //const urlPrefix = "http://localhost:8480"
 		var ishttps = 'https:' == document.location.protocol ? true : false;
@@ -87,7 +55,6 @@ class App extends Component {
 						protocol = "wss://";
 					}
                     var ws = new WebSocket(protocol + window.location.hostname + ":" + window.location.port + "/wsSend/" + resp.data);
->>>>>>> yrzx
 					
 					//var ws = new WebSocket("ws://localhost:8580/wsSend/" + resp.data);
                     ws.onmessage = (event)=> {  

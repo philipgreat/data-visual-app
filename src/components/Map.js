@@ -5,20 +5,10 @@ import 'echarts/extension/bmap/bmap';
 class Map extends Component {
 	constructor(props) {
         super(props);
-<<<<<<< HEAD
-		this.interval=1000;
-		this.data=[];
-        this.axios = axios.create({
-            timeout: 100000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
-=======
 		this.state = {
             data: [],
             selected: false
         }
->>>>>>> yrzx
     }
 	componentDidUpdate() {		
         if (!this.props.data) {
@@ -81,11 +71,7 @@ class Map extends Component {
         data.forEach(item => res.push({
             name: item.locationName,
 			//value: [102.188043, 38.520089, 4]
-<<<<<<< HEAD
-            value: [parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value,10)]
-=======
             value: [parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value,0)]
->>>>>>> yrzx
         }));
 		//alert(res);
         return res;
