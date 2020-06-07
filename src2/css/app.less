@@ -13,17 +13,14 @@ body {
 }
 
 #center {
-  top: 200px;
-  /* background-color: #FF4136; */
-  width: 500px;
-  height: 300px;
+  height: auto;
+  width: auto;
   position: absolute;
+  top: @header-height + @horizontal-gap;
+  left: 47vw;
   text-align: center;
-  left: 50%;
-  /* top: 50%; */
-  transform: translate(-50%, -50%);
   .content {
-    font-size: 20px;
+    font-size: 40px;
     font-weight: 400;
     color: #fff717;
   }
@@ -46,7 +43,6 @@ body {
   width: 100vw;
   height: 100vh;
   top: 0;
-  z-index: -1000;
 }
 
 .gadget-base {
@@ -57,13 +53,12 @@ body {
 
 #header {
   position: absolute;
-  left: 50%;
-  /* top: 50%; */
-  transform: translate(-50%, -50%);
-  text-align: center;
-  width: 100%;
-  top: 100px;
-
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 96vw;
+  height: @header-height;
+  margin: 0 auto;
   text-align: center;
   .title {
     color: #e1e9ff;

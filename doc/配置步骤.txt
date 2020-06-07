@@ -5,11 +5,13 @@
 5. 启动zookeeper，启动kafka
 6. mvn install arangoService这个工程， 上传生成的arangoService-1.0.jar， 在/home/philip/下执行./startApp.sh
 7. 执行以下命令（参数需要根据不同项目去修改）
-curl http://localhost:8480/setTopNode/moyi/Moyi:M000001 （顶点的类型：ID）
-curl http://localhost:8480/addStatistics/dssc/Project/projectDesignOriginalAmount:double（统计字段所在的类型/统计字段名：统计字段类型）
-curl http://localhost:8480/truncateAndImportAllData/moyi（初始化顶点和关系）
-curl http://localhost:8480/initName/moyi（各个数据的显示名）
-curl http://localhost:8480/initStatistics/dssc/project_data/project_design_original_amount/double/?timeField=create_time
+curl http://localhost:8480/setTopNode/retailscm/RetailStoreCountryCenter:RSCC000001 
+curl http://localhost:8480/setTopNode/freshchain/Platform:P000001 （顶点的类型：ID）
+//curl http://localhost:8480/addStatistics/dssc/Project/projectDesignOriginalAmount:double（统计字段所在的类型/统计字段名：统计字段类型）
+curl http://localhost:8480/truncateAndImportAllData/retailscm（初始化顶点和关系）
+curl http://localhost:8480/initName/retailscm（各个数据的显示名）
+curl http://localhost:8480/initStatistics/oms/user_order_data/total_amount/double
+curl http://localhost:8480/queryEntity/freshchain/FreshChainPlatform/FCP000001/Merchant_totalAmount
 8. 把第2步生成的翻译脚本拷到data-visual-app\src\assets\_locale下对应文件合并
 9. yarn build data-visual-app
 http://localhost:3000/?projectName=dssc&platformType=DecorationPlatform&platformId=DP000001&field=Project_projectDesignOriginalAmount&subType=Project
@@ -21,3 +23,7 @@ t420重启服务器后，
 1. /home/danny/kafka_2.11-1.1.0/startzoo.sh
 2. /home/danny/kafka_2.11-1.1.0/startkaf.sh
 3. /home/danny/startArangoService.sh
+
+
+https://demo2.doublechaintech.com/options.html?retailscm-RetailStoreCityServiceCenter-RSCSC000001-ConsumerOrderLineItem_price
+https://demo2.doublechaintech.com/options.html?retailscm-RetailStoreCountryCenter-RSCC000001-ConsumerOrderLineItem_price

@@ -42,7 +42,7 @@ class Pie extends Component {
                     color: '#fff',
                     fontSize: 13
                 },
-                text: this.props.data.title,
+                text: Locale.i18n(this.props.data.title, 'top', this.props.data.dataType, this.props.data.dataId),
                 left: '5%',
                 top: '6%'
             },

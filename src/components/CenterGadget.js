@@ -1,58 +1,31 @@
 import React, {Component} from 'react';
-import axios from "axios/index";
-import http from 'http';
-import https from 'https';
-// import numeral from "numeral";
-import Locale from "../assets/_locale";
 
 class CenterGadget extends Component {
 
     constructor(props) {
-        super(props)
-        this.state = {
-            content: {}
-        }
-
-        this.axios = axios.create({
-            timeout: 100000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
+        super(props);
     }
-
-    fetchData() {
-        this.axios.get(this.props.url).then(resp => {
-            if (resp.status >= 200 && resp.status < 300) {
-                this.setState({content: resp.data});
-            }
-        }).catch(err => console.error(err));
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval)
-    }
-
-    componentWillMount() {
-        this.fetchData()
-        this.interval = setInterval(() => this.fetchData(), 1000)
-    }
-
     render() {
-		var res = [];
-		if (this.state.content) {
-			for (var i=0; i<this.state.content.length; i++){
-				var value = "";
-				this.state.content[i].data.forEach((ele,index)=>{
-					value = value + ele + "|";
-				});
-				res.push(<div className="content">{value}</div>);
-				res.push(<div className="sub-title">{Locale.i18nRaw(this.state.content[i].name)}</div>);
-			}
-		}
         return (
-            <div id="center">
-			
-			{res}
+            <div id="center" style={{height:"100px"}}>
+				
+                <div className="content">
+				<table style={{width:"100%", textAlign:"center"}}>
+					<tr style={{height:"60px",fontSize:"40px"}}>
+						<td>{this.props.data?this.props.data.data.halfHour.value:""}</td>
+						<td>{this.props.data?this.props.data.data.day.value:""}</td>
+						<td>{this.props.data?this.props.data.data.month.value:""}</td>
+						<td>{this.props.data?this.props.data.data.year.value:""}</td>
+					</tr>
+					<tr>
+						<td>{this.props.data?this.props.data.data.halfHour.title:""}</td>
+						<td>{this.props.data?this.props.data.data.day.title:""}</td>
+						<td>{this.props.data?this.props.data.data.month.title:""}</td>
+						<td>{this.props.data?this.props.data.data.year.title:""}</td>
+					</tr>
+				</table>
+				</div>
+                <div className="sub-title" style={{fontSize:"25px"}} >{this.props.data?this.props.data.title:""}统计</div>
             </div>
         );
     }

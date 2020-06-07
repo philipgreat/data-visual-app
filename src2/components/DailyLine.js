@@ -17,9 +17,10 @@ class DailyLine extends Component {
         if (!this.props.data) {
             return;
         }
+        console.log(this.props.data.title);
         this.myChart.setOption({
             title: {
-                text: this.props.data.title
+                text: Locale.i18n(this.props.data.title, this.props.data.type, this.props.data.dataType, this.props.data.dataId)
             },
             xAxis: {
                 data: this.props.data.data[0].items.map(item => {

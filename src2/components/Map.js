@@ -1,114 +1,23 @@
 import React, {Component} from 'react';
+import axios from 'axios';
+import http from 'http';
+import https from 'https';
 import echarts from 'echarts';
 import 'echarts/extension/bmap/bmap';
 
 class Map extends Component {
 	constructor(props) {
         super(props);
-<<<<<<< HEAD
-		this.interval=1000;
-		this.data=[];
-        this.axios = axios.create({
-            timeout: 100000,
-            httpAgent: new http.Agent({keepAlive: true}),
-            httpsAgent: new https.Agent({keepAlive: true})
-        });
-=======
 		this.state = {
             data: [],
             selected: false
         }
->>>>>>> yrzx
     }
-	componentDidUpdate() {		
+	componentDidUpdate() {
         if (!this.props.data) {
             return;
         }
-        const locations = this.props.data.filter(item => item.longitude && item.longitude !== null);
-        if (!locations || locations.length === 0) {
-            return;
-        }
-		
-		
-        this.myChart.setOption({
-            bmap: {
-                center: this.calculateMapCenter(this.props.data),
-                zoom: this.calculateMapZoom(this.props.data)
-            },
-            // title: {
-            //     text: this.props.data.title,
-            //     left: 'center',
-            //     textStyle: {
-            //         color: '#fff'
-            //     }
-            // },
-            series: [
-                {
-                    type: 'scatter',
-                    coordinateSystem: 'bmap',
-                    data: this.convertData(this.props.data),
-                    symbolSize: function (value) {
-                        return 10+Math.log10(value[2]);
-                    },
-                    label: {
-                        normal: {
-                            formatter: '{b}: {@[2]}',
-                            position: 'right',
-                            show: true
-                        },
-                        emphasis: {
-                            show: true
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: '#ddb926'
-                        }
-                    }
-                }
-            ]
-        });
-    }
-	
-
-    convertData = function (data) {
-		//alert(data);
-        if (!data) {
-            return [];
-        }
-        var res = [];
-		//alert(data);
-        data.forEach(item => res.push({
-            name: item.locationName,
-			//value: [102.188043, 38.520089, 4]
-<<<<<<< HEAD
-            value: [parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value,10)]
-=======
-            value: [parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value,0)]
->>>>>>> yrzx
-        }));
-		//alert(res);
-        return res;
-    };
-
-    calculateMapZoom(data) {
-       
-            return 5;
-        
-    }
-
-    calculateMapCenter(data) {
-        
-        return [104.114129, 37.550339];
-        
-        
-    }
-
-    
-
-    componentDidMount() {
-        this.myChart = echarts.init(document.getElementById('map'));
-        const option = {
+		const option = {
             bmap: {
                 center: this.calculateMapCenter(this.props.data),
                 zoom: this.calculateMapZoom(this.props.data),
@@ -262,6 +171,95 @@ class Map extends Component {
         };
 
         this.myChart.setOption(option);
+        if (!this.props.data) {
+            return;
+        }
+        const locations = this.props.data.filter(item => item.longitude && item.longitude !== null);
+        if (!locations || locations.length === 0) {
+            return;
+        }
+		
+		
+        this.myChart.setOption({
+            bmap: {
+                center: this.calculateMapCenter(this.props.data),
+                zoom: this.calculateMapZoom(this.props.data)
+            },
+            // title: {
+            //     text: this.props.data.title,
+            //     left: 'center',
+            //     textStyle: {
+            //         color: '#fff'
+            //     }
+            // },
+            series: [
+                {
+                    type: 'effectScatter',
+                    coordinateSystem: 'bmap',
+                    data: this.convertData(this.props.data),
+                    symbolSize: function (value) {
+                        return 10+Math.log10(value[2]);
+                    },
+					showEffectOn: 'render',
+					rippleEffect: {
+						brushType: 'stroke',
+						scale : 50
+					},
+                    label: {
+                        normal: {
+                            formatter: '{b}: {@[2]}',
+                            position: 'right',
+                            show: true
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#ddb926'
+                        }
+                    }
+                }
+            ]
+        });
+    }
+	
+
+    convertData = function (data) {
+		//alert(data);
+        if (!data) {
+            return [];
+        }
+        var res = [];
+		//alert(data);
+        data.forEach(item => res.push({
+            name: item.locationName,
+			//value: [102.188043, 38.520089, 4]
+            value: new Array(parseFloat(item.longitude), parseFloat(item.latitude), parseInt(item.value))
+        }));
+		//alert(res);
+        return res;
+    };
+
+    calculateMapZoom(data) {
+       
+            return 5;
+        
+    }
+
+    calculateMapCenter(data) {
+        
+        return [104.114129, 37.550339];
+        
+        
+    }
+
+    
+
+    componentDidMount() {
+        this.myChart = echarts.init(document.getElementById('map'));
+        
 
     }
 
