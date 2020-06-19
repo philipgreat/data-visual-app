@@ -34,7 +34,7 @@ class Header extends Component {
                 <h1 className="title" style={{fontSize:"40px"}}>小黄龙回收供应链数据</h1>
                 <span className="clock" style={{position:"absolute",top:0,right:0,fontSize:"10px"}}>{this.state.datetime}</span>
                 <span><img 
-                    src='https://demo.doublechaintech.com/_yourong/images/logo-icon.png/' 
+                    src='./xiaohuanglong.png' 
                     width="40px" 
                     style={{position:"absolute",top:0,left:20}}
                 /></span>
