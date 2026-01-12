@@ -35,7 +35,7 @@ class Header extends Component {
                 <span className="clock" style={{position:"absolute",top:0,right:0,fontSize:"10px"}}>{this.state.datetime}</span>
                 <span><img 
                     src='./xiaohuanglong.png' 
-                    width="40px" 
+                    width="50px" 
                     style={{position:"absolute",top:0,left:20}}
                 /></span>
 
